@@ -1,0 +1,240 @@
+body {
+    font-size: 12px;
+    font-family: Verdana,宋体,Tahoma;
+    padding: 0px;
+    margin: 0px;
+}
+
+a {
+    color: Black;
+    text-decoration: none;
+}
+
+    a:hover {
+        color: Red;
+        text-decoration: underline;
+    }
+
+.readonly {
+    background-color: #f6f6f6;
+}
+
+.hide {
+    display: none;
+}
+
+.lookup .combo-arrow {
+    background: url('../images/lookup.gif') no-repeat center center;
+}
+
+.lookup .combo-arrow-hover {
+    background-color: #E0ECFF;
+    margin: 1px;
+    border: 1px solid #A4BED4;
+    width: 14px;
+    height: 16px !important;
+}
+
+.footer {
+    text-align: center;
+    color: #15428B;
+    margin: 0px;
+    padding: 0px;
+    line-height: 23px;
+    font-weight: bold;
+}
+
+
+.head a {
+    color: White;
+    text-decoration: underline;
+}
+
+.errorMsg {
+    color: Red;
+    padding-left: 5px;
+}
+
+
+.tbar table {
+    padding: 1px 10px;
+}
+
+    .tbar table tr .td-left {
+        padding-left: 2px;
+        text-align: left;
+    }
+
+    .tbar table tr .td-right {
+        padding-left: 20px;
+        text-align: right;
+    }
+
+    .tbar table tr td input {
+        width: 120px;
+    }
+
+    .tbar table tr td select {
+        width: 124px;
+    }
+
+@-moz-document url-prefix() {
+    .tbar table tr td select {
+        width: 126px;
+    }
+}
+
+.tbar table tr td span {
+    height: 23px;
+}
+
+/* 表单录入css */
+
+.tbarform {
+    /*background: #FFFFFF;*/
+}
+
+    .tbarform table {
+        padding: 1px 10px;
+    }
+
+        .tbarform table td {
+            height: 25px;
+            line-height: 25px;
+        }
+
+        .tbarform table tr .td-left {
+            padding-left: 2px;
+            text-align: left;
+            padding-right: 10px;
+        }
+
+        .tbarform table tr .td-right {
+            text-align: right;
+        }
+
+        .tbarform table tr td input {
+            width: 150px;
+        }
+
+        .tbarform table tr td select {
+            width: 154px;
+        }
+
+@-moz-document url-prefix() {
+    .tbarform table tr td select {
+        width: 156px;
+    }
+}
+
+.tbarform table tr td span {
+    height: 23px;
+}
+
+/*选项卡*/
+.tabContent {
+    padding: 3px;
+}
+/*弹出层表单*/
+.tfrm {
+    width: 100%;
+    margin-top: 5px;
+    font-size: 12px;
+    font-family: Verdana,宋体,Tahoma;
+    border-collapse: collapse;
+}
+
+    .tfrm td {
+        width: auto;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 1px solid #E2E2E2;
+        padding: 2px;
+        word-break: break-all;
+    }
+
+        .tfrm td:nth-child(odd) {
+            text-align: right;
+            width: 80px;
+        }
+
+        .tfrm td:nth-child(even) {
+            padding-left: 10px;
+            text-align: left;
+        }
+
+        .tfrm td input {
+            width: 260px;
+        }
+
+        .tfrm td select {
+            width: 264px;
+        }
+
+@-moz-document url-prefix() {
+    .tfrm td select {
+        width: 266px;
+    }
+}
+
+.tfrm2 {
+    width: 100%;
+    margin-top: 5px;
+    font-size: 12px;
+    font-family: Verdana,宋体,Tahoma;
+    border-collapse: collapse;
+}
+
+    .tfrm2 td {
+        width: auto;
+        height: 30px;
+        line-height: 30px;
+        border-bottom: 1px solid #E2E2E2;
+        padding: 2px;
+        word-break: break-all;
+    }
+
+        .tfrm2 td:nth-child(odd) {
+            width: 80px;
+            text-align: right;
+        }
+
+        .tfrm2 td:nth-child(even) {
+            width: 220px;
+            padding-left: 10px;
+            text-align: left;
+        }
+
+        .tfrm2 td:last-child {
+            width: auto;
+            padding-left: 10px;
+            text-align: left;
+        }
+
+        .tfrm2 td input {
+            width: 200px;
+        }
+
+        .tfrm2 td select {
+            width: 204px;
+        }
+
+@-moz-document url-prefix() {
+    .tfrm2 td select {
+        width: 206px;
+    }
+}
+
+.required {
+    padding-left: 3px;
+    color: red;
+    font-size: 13px;
+}
+
+.textbox-readonly, .textbox-disabled {
+    background-color: #efeded;
+}
+
+    .textbox-readonly input, .textbox-disabled input {
+        background-color: #efeded;
+    }

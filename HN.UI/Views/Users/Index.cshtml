@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.Title = "用户管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .layout-split-west {
+        border-right-color: Window;
+    }
+</style>
+
+<div class="easyui-layout" data-options="fit:true" scroll="no">
+    <div data-options="region:'west',collapsible:true,split:true,title:'组织',iconCls: 'icon-org'" style="width:180px">
+        <ul id="tree"></ul>
+    </div>
+    <div data-options="region:'center',noheader:true,border:false">
+        <table id="dg"></table>
+    </div>
+</div>
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+        <table>
+            <tr>
+                <td>登录名:</td>
+                <td class="td-left"><input type="text" id="txtLoginName" class="easyui-textbox" /></td>
+                <td class="td-right">姓名:</td>
+                <td class="td-left"><input type="text" id="txtUserName" class="easyui-textbox" /></td>
+                <td class="td-right">手机:</td>
+                <td class="td-left"><input type="text" id="txtPhone" class="easyui-textbox" /></td>
+                <td class="td-right"><a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="btnSearch_OnClick()">查询</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $(function () {
+            $("#tree").tree({
+                animate: true,
+                lines: true,
+                url: '/Organizat/GetOrgList?t=2',
+                onSelect: btnSearch_OnClick
+            });
+            $("#dg").datagrid({
+                url: '/Users/GetUserList',
+                idField: 'UserID',
+                pagination: true,
+                pageSize: 20,
+                rownumbers: true,
+                fit: true,
+                fitColumns: true,
+                singleSelect: true,
+                striped: true,
+                toolbar: '#tbar',
+                columns: [[
+                    { field: 'UserID', title: 'UserID', hidden: true },
+                    { field: 'LoginName', title: '登录名', width: 80, halign: 'center' },
+                    { field: 'UserCode', title: '编号', width: 60, halign: 'center' },
+                    { field: 'UserName', title: '姓名', width: 60, halign: 'center' },
+                    { field: 'Gender', title: '性别', width: 30, halign: 'center', align: 'center', formatter: function (value, row, index) { if (value == 0) return '男'; else if (value == 1) return '女' } },
+                    { field: 'Birthday', title: '出生日期', width: 80, halign: 'center', align: 'center', formatter: formateDate },
+                    { field: 'Phone', title: '手机', width: 90, halign: 'center' },
+                    { field: 'Tel', title: '固话', width: 90, halign: 'center' },
+                    { field: 'Email', title: '邮箱', width: 120, halign: 'center' },
+                    { field: 'HomeAddress', title: '住址', width: 120, halign: 'center', hidden: true },
+                    { field: 'CreateName', title: '创建人', width: 80, halign: 'center' },
+                    { field: 'CreateDate', title: '创建日期', width: 80, halign: 'center', formatter: formateDate },
+                ]]
+            });
+        })
+        function btnSearch_OnClick(t) {
+            var node = $("#tree").tree("getSelected");
+            var orgID = node != null ? node.id : '';
+            queryData(t, { 'loginName': $("#txtLoginName").val(), 'userName': $("#txtUserName").val(), 'phone': $("#txtPhone").val(), 'orgID': orgID });
+        }
+        function btnDelete_OnClick() {
+            deleteData('/Users/Delete', '您确定要删除该用户吗？');
+        }
+        function btnAdd_OnClick() {
+            addData("/Users/Edit", "新增用户", 700, 420);
+        }
+        function btnEdit_OnClick() {
+            editData("/Users/Edit", "编辑用户", 700, 420);
+        }
+        function btnReset_OnClick() {
+            var row = $("#dg").datagrid("getSelected");
+            if (row == null) {
+                message('warning', '请选择数据！');
+                return false;
+            }
+            message("confirm", "您确定要将密码重置为[123456]？", function (r) {
+                if (r) {
+                    $.ajax({
+                        url: '/Users/Reset',
+                        type: 'post',
+                        data: { id: row.UserID },
+                        dataType: 'text',
+                        success: function (data) {
+                            if (data == '') {
+                                message("show", "密码重置成功！");
+                            }
+                            else {
+                                message("error", data);
+                            }
+                        }
+                    })
+                }
+            })
+        }
+        function btnExport_OnClick() {
+            location.href = "/Users/Export";
+        }
+    </script>
+}

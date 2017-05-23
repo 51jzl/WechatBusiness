@@ -1,0 +1,28 @@
+﻿@{
+    //列表页模板，在页面布局分左右两栏时使用
+    ViewBag.skin = Request.Cookies["skin"].Value;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/css/base.css" rel="stylesheet" />
+    <link href="~/Content/EasyUI/themes/@ViewBag.skin/easyui.css" rel="stylesheet" />
+    <link href="~/Content/css/themes/@ViewBag.skin/main.css" rel="stylesheet" />
+    <link href="~/Content/css/icons/icon.css" rel="stylesheet" />
+    @RenderSection("PageSpecificStyle", required: false)
+    <!--加载脚本-->
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Content/EasyUI/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUI/locale/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/Page/Common.js?V=2015102123482"></script>
+    @RenderSection("PageSpecificScript", required: false)
+</head>
+<body>
+    @RenderBody()
+</body>
+</html>

@@ -1,0 +1,62 @@
+﻿@{
+    ViewBag.Title = "按钮管理";
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+        <table>
+            <tr>
+                <td>编号:</td>
+                <td class="td-left"><input type="text" id="txtCode" class="easyui-textbox" /></td>
+                <td class="td-right">名称:</td>
+                <td class="td-left"><input type="text" id="txtName" class="easyui-textbox" /></td>
+                <td class="td-right"><a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="btnSearch_OnClick()">查询</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<table id="dg"></table>
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $("#dg").datagrid({
+            url: '/Button/GetButtonList',
+            idField: 'BtnID',
+            rownumbers: true,
+            fit: true,
+            fitColumns: true,
+            singleSelect: true,
+            striped: true,
+            toolbar: '#tbar',
+            columns: [[
+                { field: 'BtnID', title: 'BtnID', hidden: true },
+                {
+                    field: 'Icon', title: '图标', width: 60, halign: 'center', align: 'center', formatter: function (value, row, index) {
+                        return '<span class="icon icon-' + row.Icon + '">&nbsp;</span>';
+                    }
+                },
+                { field: 'BtnCode', title: '按钮ID', width: 100, halign: 'center' },
+                { field: 'BtnName', title: '名称', width: 120, halign: 'center' },
+                { field: 'BtnTitle', title: '标题', width: 120, halign: 'center' },
+                { field: 'BtnClick', title: '事件', width: 150, halign: 'center' },
+                { field: 'Action', title: '方法', width: 100, halign: 'center' },
+                { field: 'Type', title: '类型', width: 100, halign: 'center', align: 'center', formatter: function (value, row, index) { if (value == 0) return '通用'; else if (value == 1) return 'System'; else return '用户' } },
+                { field: 'Sort', title: '显示顺序', width: 100, halign: 'center', align: 'right' },
+            ]]
+        })
+        function btnSearch_OnClick() {
+            queryData(null, { 'btnCode': $("#txtCode").val(), 'btnName': $("#txtName").val(), 'phone': $("#txtPhone").val(), 'v': Math.random() });
+        }
+        function btnDelete_OnClick() {
+            deleteData('/Button/Delete');
+        }
+        function btnAdd_OnClick() {
+            addData("/Button/Edit", "新增按钮", 450, 380);
+        }
+        function btnEdit_OnClick() {
+            editData("/Button/Edit", "编辑按钮", 450, 380);
+        }
+    </script>
+}

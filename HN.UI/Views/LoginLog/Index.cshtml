@@ -1,0 +1,43 @@
+﻿@{
+    ViewBag.Title = "登录日志";
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+        <table>
+            <tr>
+                <td class="td-right">日期:</td>
+                <td class="td-left"><input id="txtStartDate" class="easyui-datebox" />—<input id="txtEndDate" class="easyui-datebox" /></td>
+                <td class="td-right"><a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="btnSearch_OnClick()">查询</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<table id="dg"></table>
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $("#dg").datagrid({
+            url: '/LoginLog/GetLogList',
+            pagination: true,
+            pageSize: 20,
+            rownumbers: true,
+            fit: true,
+            singleSelect: true,
+            striped: true,
+            toolbar: '#tbar',
+            columns: [[
+                { field: 'LoginName', title: '登录名', width: 100, halign: 'center'},
+                { field: 'State', title: '状态', width: 120, halign: 'center', align: 'center', formatter: function (value) { if (value == 1) return '登录成功'; else return '登录失败' } },
+                { field: 'LoginIP', title: '登录IP', width: 120, halign: 'center' },
+                { field: 'IPAddress', title: '登录地点', width: 150, halign: 'center', hidden: true },
+                { field: 'LoginTime', title: '登录时间', width: 200, halign: 'center', align: 'center' },
+            ]]
+        })
+        function btnSearch_OnClick() {
+            queryData(null, { 'startDate': $("#txtStartDate").datebox("getValue"), 'endDate': $("#txtEndDate").datebox("getValue") });
+        }
+    </script>
+}

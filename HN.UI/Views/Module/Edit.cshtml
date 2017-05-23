@@ -1,0 +1,52 @@
+﻿@using HN.Model
+@model ModuleInfo
+
+@{
+    ViewBag.Title = "编辑菜单";
+    Layout = null;
+}
+
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <form id="ff" class="easyui-form" action="/Module/Edit/@Model.ModID" data-options="novalidate:true" method="post">
+        @Html.HiddenFor(m => m.ModID)
+        <table class="tfrm">
+            <tr><td>名称:</td><td>@Html.TextBoxFor(m => m.ModName, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>标题:</td><td>@Html.TextBoxFor(m => m.ModTitle, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr>
+                <td>上级菜单:</td>
+                <td>
+                    <select id="ParentID" name="ParentID" class="easyui-combotree" data-options="url:'/Module/GetModuleList',value:@Model.ParentID"></select><span class="required">*</span>
+                </td>
+            </tr>
+            <tr><td>打开方式:</td><td>@Html.DropDownListFor(m => m.Targe, new List<SelectListItem>() { new SelectListItem { Value = "Iframe", Text = "Iframe" } }, new { @class = "easyui-combobox", @editable = "false" })<span class="required">*</span></td></tr>
+            <tr><td>链接地址:</td><td>@Html.TextBoxFor(m => m.Link, new { @class = "easyui-textbox" })</td></tr>
+            <tr><td>图标:</td><td>@Html.TextBoxFor(m => m.Icon, new { @class = "easyui-textbox" })</td></tr>
+            <tr><td>启用:</td><td>@Html.DropDownListFor(m => m.IsEnable, new List<SelectListItem>() { new SelectListItem { Value = "1", Text = "是" }, new SelectListItem { Value = "0", Text = "否" } }, new { @class = "easyui-combobox", @editable = "false" })<span class="required">*</span></td></tr>
+            <tr><td>类型:</td><td>@Html.DropDownListFor(m => m.Type, new List<SelectListItem>() { new SelectListItem { Value = "0", Text = "通用" }, new SelectListItem { Value = "1", Text = "System" } }, new { @class = "easyui-combobox", @editable = "false" })<span class="required">*</span></td></tr>
+            <tr><td>显示顺序:</td><td>@Html.TextBoxFor(m => m.Sort, new { @class = "easyui-textbox", data_options = "required:true,validType:'number'", Value = Model.ModID.ToString() == "0" ? "" : Model.Sort.ToString() })<span class="required">*</span></td></tr>
+        </table>
+    </form>
+</div>
+<div id="footer" style="text-align: right; height: 35px; line-height: 33px;padding-right:10px;border-width:1px 0px 0px 0px">
+    <a id="btnSave" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)">确定</a>
+    <a id="btnCancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:$('#topWin').window('close')">取消</a>
+</div>
+
+<script type="text/javascript">
+    $("#btnSave").click(function () {
+        $('#ff').form('submit', {
+            onSubmit: function () {
+                if ($(this).form('enableValidation').form('validate')) {
+                    if ($("#ModID").val() != 0 && $("#ModID").val() == $("#ParentID").combo("getValue")) {
+                        message('warning', '不能选择当前菜单作为上级！');
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            },
+            dataType: 'text',
+            success: submitSuccess
+        });
+    })
+</script>

@@ -1,0 +1,49 @@
+一.datagrid数据组件
+  1.属性说明(在系统中最常用到的，其他的请参考API帮助文档)
+    url:          远程加载数据地址  
+    idField:      关键字段 一般为主键 数据编辑和删除时使用
+    rownumbers:   是否显示显示行号 默认false
+    fit:          是否自适应父容器 默认false
+    fitColumns:   表格宽度是否自适应 默认false
+    singleSelect: 是否允许选择单行数据 默认false
+    striped:      是否显示斑马线效果 默认false
+    toolbar:      表头工具条
+  
+  2.方法load与reload区别
+      在重新加载(如查询数据，添加或者编辑完数据需要重新加载列表时)datagrid表格数据时，
+	会用到load和reload两个方法，如下：
+      $("#dg").datagrid("load",{...})
+	  $("#dg").datagrid("reload",{...})
+      load在加载数据时传给后台的页码是1，也就是说不管你当前数据在第几页，加载完之后始终
+    会回到第一页。
+	  reload在加载数据数时传给后台的是当前页码，实现的是刷新当前页的功能。
+	  在系统中查询数据默认用load 而在添加或编辑完数据重新加载时默认用reload，其他视情况而定。
+
+  3.一个完整的datagrid数据绑定示例
+    $("#dg").datagrid({
+            url: '/Button/GetButtonList',  
+            idField: 'BtnID',
+            rownumbers: true,
+            fit: true,
+            fitColumns: true,
+            singleSelect: true,
+            striped: true,
+            toolbar: '#tbar',
+            columns: [[
+                { field: 'BtnID', title: 'BtnID', hidden: true },
+                { field: 'BtnCode', title: '按钮ID', width: 100, halign: 'center' },
+                { field: 'BtnName', title: '名称', width: 120, halign: 'center' },
+                { field: 'BtnTitle', title: '标题', width: 120, halign: 'center' },
+                {
+                    field: 'Icon', title: '图标', width: 100, halign: 'center', align: 'center', formatter: function (value, row, index) {
+                        return '<a id="btnAdd" title="' + row.BtnTitle + '" href="#" class="easyui-linkbutton l-btn l-btn-small l-btn-plain" data-options="plain:true,iconCls:icon-' + row.Icon + '"><span class="l-btn-left l-btn-icon-left"><span class="l-btn-text"></span><span class="l-btn-icon icon-' + row.Icon + '">&nbsp;</span></span></a>';
+                    }
+                },
+                { field: 'BtnClick', title: '事件', width: 150, halign: 'center' },
+                { field: 'Action', title: '方法', width: 100, halign: 'center' },
+                { field: 'Type', title: '类型', width: 100, halign: 'center', align: 'center', formatter: function (value, row, index) { if (value == 0) return '通用'; else if (value == 1) return 'System'; else return '用户' } },
+                { field: 'Sort', title: '显示顺序', width: 100, halign: 'center', align: 'right' },
+            ]]
+        })
+  4.datagrid注意事项
+    当datagrid设置了 idField后用getSelected获取选中的行会存在缓存 及用load获reload重新加载数据后这选中的一行还会存在缓存当中，此时可以用clearSelections清除选中的行

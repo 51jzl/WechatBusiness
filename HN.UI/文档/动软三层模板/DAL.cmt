@@ -1,0 +1,255 @@
+﻿<#@ template language="c#" HostSpecific="True" #>
+<#@ output extension= ".cs" #>
+<#
+	TableHost host = (TableHost)(Host);	
+	string DbParaHead=host.DbParaHead;
+	string DbParaDbType=host.DbParaDbType;
+	string preParameter=host.preParameter;
+	string ModelSpace = host.GetModelClass(host.TableName)+"Info";
+	ColumnInfo identityKey=host.IdentityKey;
+	string returnValue = "void";
+    if (identityKey!=null)
+    {         
+         returnValue = CodeCommon.DbTypeToCS(identityKey.TypeName);              
+    }
+#>
+using System; 
+using System.Text;
+using System.Data.SqlClient;
+using System.Collections.Generic; 
+using System.Data;
+using HN.Utility;
+using HN.Model;
+
+namespace HN.DAL
+<# if( host.Folder.Length > 0){ #>
+	.<#= host.Folder #>
+<# } #>
+{
+	/// <summary>
+	/// <# if( host.TableDescription.Length > 0) {#><#= host.TableDescription #>
+	<# }#>/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+	/// </summary>
+    public class <#= host.GetDALClass(host.TableName) #>
+	{ 
+	    #region 判断是否存在 Exists(object tran, <#= CodeCommon.GetInParameter(host.Keys, false) #>)
+	    /// <summary>
+		/// 判断是否存在
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Exists(object tran, <#= CodeCommon.GetInParameter(host.Keys, false) #>)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select count(1) from <#= host.TableName #>");
+			strSql.Append(" where ");
+			<# for(int i=0;i< host.Keys.Count;i++)
+            {ColumnInfo key = host.Keys[i];if (key.IsPrimaryKey || !key.IsIdentity){#>
+strSql.Append(" <#= key.ColumnName#> = <#=preParameter#><#=key.ColumnName#> <# if (i< host.Keys.Count-1 ) {#>and <#}#> ");
+<#}}#><#= CodeCommon.GetPreParameter(host.Keys, false, host.DbType) #>
+			object obj= SQLHelper.ExecuteScalar((SqlTransaction)tran,strSql.ToString(),parameters);
+			return obj.ToString()=="0"?false:true;
+		}
+		#endregion
+				
+		#region 增加一条数据 Add(object tran,<#= ModelSpace #> model)
+		/// <summary>
+		/// 增加一条数据
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Add(object tran,<#= ModelSpace #> model)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("insert into <#= host.TableName #>(");			
+            strSql.Append("<# for(int i=0;i< host.Fieldlist.Count;i++) {   ColumnInfo c = host.Fieldlist[i]; if (!c.IsIdentity) {#><#= c.ColumnName#><# if (i< host.Fieldlist.Count-1 ) {#>,<#}#><#}}#>");
+			strSql.Append(") values (");
+            strSql.Append("<# for(int i=0;i< host.Fieldlist.Count;i++) {   ColumnInfo c = host.Fieldlist[i]; if (!c.IsIdentity) {#><#=preParameter#><#= c.ColumnName#><# if (i< host.Fieldlist.Count-1 ) {#>,<#}#><#}}#>");            
+            strSql.Append(") ");            
+			SqlParameter[] parameters = {
+			<# for(int i=0;i< host.Fieldlist.Count;i++)
+            {   
+            ColumnInfo c = host.Fieldlist[i];
+            if(c.IsIdentity) continue;
+            #>
+        new SqlParameter("<#=preParameter#><#=c.ColumnName#>", SqlDbType.<#=CodeCommon.DbTypeLength(host.DbType, c.TypeName, c.Length).Replace("date","Date")#>) <# if (i< host.Fieldlist.Count-1 ) {#>,<#}#>            
+            <# }#> };
+			<# foreach (ColumnInfo c in host.Fieldlist) { if(c.IsIdentity) continue;#>            
+            parameters[<#= n #>].Value = <# if ("uniqueidentifier" == c.TypeName.ToLower()){#>Guid.NewGuid();<#} else {#>model.<#=c.ColumnName#>;<#} n=n+1; #>
+            <# }#>
+            
+            int rows=SQLHelper.ExecuteNonQuery((SqlTransaction)tran,strSql.ToString(),parameters);
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		#endregion
+		
+		#region 更新一条数据 Update(object tran,<#= ModelSpace #> model)
+		/// <summary>
+		/// 更新一条数据
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Update(object tran,<#= ModelSpace #> model)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("update <#= host.TableName #> set ");
+			<# for(int i=0;i< host.Fieldlist.Count;i++)
+            {   ColumnInfo c = host.Fieldlist[i]; #>
+            <# if (!c.IsIdentity) {#>            
+            strSql.Append("<#=c.ColumnName #>=<#=preParameter#><#=c.ColumnName#><# if (i< host.Fieldlist.Count-1){#>,<#}#>");<#}#>
+            <#}#>			
+			strSql.Append(" where <#= CodeCommon.GetWhereParameterExpression(host.Keys, true ,host.DbType) #> ");
+						
+            SqlParameter[] parameters = {
+			<# for(int i=0;i< host.Fieldlist.Count;i++)
+            {   ColumnInfo c = host.Fieldlist[i]; #>
+            new SqlParameter("<#=preParameter#><#=c.ColumnName#>", SqlDbType.<#=CodeCommon.DbTypeLength(host.DbType, c.TypeName, c.Length).Replace("date","Date")#>) <# if (i< host.Fieldlist.Count-1 ) {#>,<#}#>
+            
+            <# }#> };
+			<# n=0; #>
+			<# foreach (ColumnInfo c in host.Fieldlist) { #>            
+            parameters[<#= n #>].Value = model.<#=c.ColumnName#>;<# n=n+1; #>
+            <# }#>
+            
+            int rows=SQLHelper.ExecuteNonQuery((SqlTransaction)tran,strSql.ToString(),parameters);
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}
+		#endregion
+		
+		#region 删除一条数据 Delete(object tran,<#=CodeCommon.GetInParameter(host.Keys, true)#>)
+		/// <summary>
+		/// 删除一条数据
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Delete(object tran,<#=CodeCommon.GetInParameter(host.Keys, true)#>)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("delete from <#= host.TableName #> ");
+			strSql.Append(" where <#= CodeCommon.GetWhereParameterExpression(host.Keys, true, host.DbType)#>");
+			<#= CodeCommon.GetPreParameter(host.Keys, true, host.DbType) #>
+			int rows=SQLHelper.ExecuteNonQuery((SqlTransaction)tran,strSql.ToString(),parameters);
+			if (rows > 0)
+			{
+				return true;
+			}
+			else
+			{
+				return false;
+			}
+		}	
+		#endregion
+		
+		#region 得到一个对象实体 GetModel(object tran,<#= CodeCommon.GetInParameter(host.Keys,true) #>)
+		/// <summary>
+		/// 得到一个对象实体
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public <#= ModelSpace #> GetModel(object tran,<#= CodeCommon.GetInParameter(host.Keys,true) #>)
+		{
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select <# for(int i=0;i< host.Fieldlist.Count;i++) { #><#= host.Fieldlist[i].ColumnName #><# if(i< host.Fieldlist.Count-1 ) {#>,<# } #><#}#> ");			
+			strSql.Append(" from <#= host.TableName #> ");
+			strSql.Append(" where <#= CodeCommon.GetWhereParameterExpression(host.Keys, true, host.DbType) #>");
+			<#=CodeCommon.GetPreParameter(host.Keys, true, host.DbType)#>
+			<#=ModelSpace#> model=new <#=ModelSpace#>();
+			DataSet ds=SQLHelper.GetDataSet((SqlTransaction)tran,strSql.ToString(),parameters);
+			
+			if(ds.Tables[0].Rows.Count>0)
+			{
+				<# foreach (ColumnInfo c in host.Fieldlist) { #>
+				<# if(CodeCommon.DbTypeToCS(c.TypeName)=="int"|| CodeCommon.DbTypeToCS(c.TypeName)=="long"|| CodeCommon.DbTypeToCS(c.TypeName)=="float"|| CodeCommon.DbTypeToCS(c.TypeName)=="DateTime"|| CodeCommon.DbTypeToCS(c.TypeName)=="decimal")
+				{#>
+				if(ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString()!="")
+				{
+					model.<#=c.ColumnName#>=<#=CodeCommon.DbTypeToCS(c.TypeName)#>.Parse(ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString());
+				}
+				<# } #>
+				<# if(CodeCommon.DbTypeToCS(c.TypeName)=="string") {#>
+				model.<#=c.ColumnName#>= ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString();
+				<# } #>
+				<# if(CodeCommon.DbTypeToCS(c.TypeName)=="byte[]") {#>
+				if(ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString()!="")
+				{
+					model.<#=c.ColumnName#>= (byte[])ds.Tables[0].Rows[0]["<#=c.ColumnName#>"];
+				}
+				<# } #>
+				<# if(CodeCommon.DbTypeToCS(c.TypeName)=="Guid") {#>
+				if(ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString()!="")
+				{
+					model.<#=c.ColumnName#>= ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString();
+				}
+				<# } #>
+				<# if(CodeCommon.DbTypeToCS(c.TypeName)=="bool") {#>
+				if(ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString()!="")
+				{
+					if((ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString()=="1")||(ds.Tables[0].Rows[0]["<#=c.ColumnName#>"].ToString().ToLower()=="true"))
+					{
+					model.<#=c.ColumnName#>= true;
+					}
+					else
+					{
+					model.<#=c.ColumnName#>= false;
+					}
+				}
+				<# } #>
+				<# } #>						
+				return model;
+			}
+			else
+			{
+				return null;
+			}
+		}
+		#endregion	
+		
+		#region 获得数据列表 GetList(int PageSize, int PageIndex)
+	    /// <summary>
+		/// 示例 获得数据列表,条件,排序自定义
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+	    /// <param name="pageSize"></param>
+        /// <param name="pageIndex"></param>
+		/// </summary>
+		public DataTable GetList(int PageSize, int PageIndex)
+		{
+		    DataTable dtReturn=new DataTable();
+			StringBuilder strSql=new StringBuilder();
+			strSql.Append("select <# for(int i=0;i< host.Fieldlist.Count;i++) { #>a.<#= host.Fieldlist[i].ColumnName #><# if(i< host.Fieldlist.Count-1 ) {#>,<# } #><#}#> ");			
+			strSql.Append(" from <#= host.TableName #> a");
+			string strWhere="1=1";
+			List<SqlParameter> parameter = new List<SqlParameter>();
+			
+			//参数示例     
+			//if (!string.IsNullOrEmpty(startDate))
+            //{
+            //    strWhere += " and a.CreateDate>=@StartDate";
+            //    parameter.Add(new SqlParameter("@StartDate", startDate));
+            //}
+            //if (!string.IsNullOrEmpty(Phone))
+            //{
+            //    strWhere += " and a.Phone like @Phone";
+            //    parameter.Add(new SqlParameter("@Phone", "%" + Phone + "%"));
+            //}
+            
+			string strOrderBy = "<#=CodeCommon.GetFieldstrlist(host.Keys, true)#>";
+			dtReturn = Tools.GetPagerList(null, strSql.ToString(), strWhere, parameter, strOrderBy, PageSize, PageIndex);
+			
+			return dtReturn;
+		}
+		#endregion
+	}
+}
+
+<#+
+int n=0;
+#>

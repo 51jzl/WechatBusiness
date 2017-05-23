@@ -1,0 +1,22 @@
+﻿@using HN.Model
+@model ButtonInfo
+
+@{
+    ViewBag.Title = "编辑按钮";
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <form id="ff" class="easyui-form" action="/Button/Edit/@Model.BtnID" data-options="novalidate:true" method="post">
+        @Html.HiddenFor(m => m.BtnID)
+        <table class="tfrm">
+            <tr><td>按钮ID:</td><td>@Html.TextBoxFor(m => m.BtnCode, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>名称:</td><td>@Html.TextBoxFor(m => m.BtnName, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>标题:</td><td>@Html.TextBoxFor(m => m.BtnTitle, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>事件:</td><td>@Html.TextBoxFor(m => m.BtnClick, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>图标:</td><td>@Html.TextBoxFor(m => m.Icon, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>方法:</td><td>@Html.TextBoxFor(m => m.Action, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>类型:</td><td>@Html.DropDownListFor(m => m.Type, new List<SelectListItem>() { new SelectListItem { Value = "0", Text = "通用" }, new SelectListItem { Value = "1", Text = "System" } }, new { @class = "easyui-combobox", @editable = "false" })<span class="required">*</span></td></tr>
+            <tr><td>显示顺序:</td><td>@Html.TextBoxFor(m => m.Sort, new { @class = "easyui-textbox", data_options = "required:true,validType:'number'", Value = Model.BtnID.ToString() == "0" ? "" : Model.Sort.ToString() })<span class="required">*</span></td></tr>
+        </table>
+    </form>
+</div>

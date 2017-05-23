@@ -1,0 +1,83 @@
+﻿@{
+    ViewBag.Title = "字典管理";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<style type="text/css">
+    .layout-split-west {
+        border-right-color: Window;
+    }
+</style>
+<div class="easyui-layout" data-options="fit:true" scroll="no">
+    <div data-options="region:'west',split:true,title:'字典类别',iconCls: 'icon-node_tree'" style="width:180px">
+        <ul id="tree"></ul>
+    </div>
+    <div data-options="region:'center',noheader:true,border:false">
+        <div id="tbar">
+            <div id="tbar" class="tbar">
+                <div class="z-toolbar">
+                    @Html.Raw(ViewBag.btnHtml)
+                </div>
+            </div>
+        </div>
+        <table id="dg"></table>
+    </div>
+</div>
+
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $(function () {
+            $("#tree").tree({
+                animate: true,
+                lines: true,
+                url: '/Dict/GetKeyTree',
+                onSelect: btnSearch_OnClick
+            })
+            $("#dg").datagrid({
+                url: '/Dict/GetValue',
+                idField: 'ValID',
+                pagination: true,
+                pageSize: 20,
+                rownumbers: true,
+                fit: true,
+                singleSelect: true,
+                striped: true,
+                toolbar: '#tbar',
+                columns: [[
+                    { field: 'UserID', title: 'UserID', hidden: true },
+                    { field: 'KeyName', title: '关键字', width: 100, halign: 'center' },
+                    { field: 'ValName', title: '选项值', width: 100, halign: 'center' },
+                    { field: 'FirstPY', title: '拼音码', width: 100, halign: 'center' },
+                    { field: 'Sort', title: '显示顺序', width: 100, halign: 'center', align: 'right' },
+                    { field: 'Remark', title: '备注', width: 200, halign: 'center' },
+                ]]
+            })
+        })
+        function btnSearch_OnClick(t) {
+            var node = $("#tree").tree("getSelected");
+            var keyID = node != null ? node.id : '';
+            queryData(t, { 'keyID': keyID });
+        }
+        function btnDelete_OnClick() {
+            deleteData('/Dict/Delete');
+        }
+        function btnAdd_OnClick() {
+            var node = $("#tree").tree("getSelected");
+            if (node == null || node.id == '') {
+                message("warning", "请选择左侧的关键字!");
+                return false;
+            }
+            openTopWin("/Dict/Edit?keyID=" + node.id + "&keyName=" + encodeURI(node.text), "新增选项值", 450, 320, 'icon-add');
+        }
+        function btnEdit_OnClick() {
+            editData("/Dict/Edit", "编辑选项值", 450, 320);
+        }
+    </script>
+}
+
+
+
+
+
+
+
+

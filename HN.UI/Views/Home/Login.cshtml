@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>用户-登录</title>
+
+    <link rel="stylesheet" type="text/css" href="/Content/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="/Content/css/loginStyle.css" />
+</head>
+<body>
+
+    <div class="login-body">
+        <div class="login-block">
+            <div class="login-head">
+                <h3 class="login-title">
+                    二维码登陆
+                </h3>
+                <div id="picture-zone">
+                    <i class="fa fa-television fa-4x" aria-hidden="true"></i>
+                    <div class="trangle"></div>
+                </div>
+            </div>
+            <div class="content-zone">
+                <div class="erCodeLogin">
+                    <div id="loginCode-pic"></div>
+                    <p class="text-center"><i class="fa fa-weixin text-wechat" aria-hidden="true"></i>打开<span class="text-wechat">微信</span>"扫一扫"登陆</p>
+                </div>
+                <div class="inputLogin padding-md">
+                    <form class="form-horizontal" id="loginForm" target="hiddenFrame">
+                        <div class="form-group no-margins">
+                            <div class="input-group m-t-md" id="Email">
+                                <div class="input-group-addon border-right-none bg-white"><i class="fa fa-phone-square" aria-hidden="true"></i></div>
+                                <input class="form-control inputForm border-left-none" name="loginName" placeholder="输入手机号或邮箱" type="text" value="13701991790">
+                            </div>
+                            <p class="text-danger" id="userName_error">请输入合法的用户名！</p>
+                        </div>
+                        <div class="form-group no-margins">
+                            <div class="input-group m-t-md" id="Password">
+                                <div class="input-group-addon border-right-none bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                                <input class="form-control inputForm border-left-none" name="pwd" placeholder="输入密码" type="password" value="sysadmin!q@w#e">
+                            </div>
+                            <p class="text-danger" id="passWord_error">用户名和密码不匹配！</p>
+                        </div>
+                        <div class="form-group no-margins">
+                            <div class="input-group m-t-md" id="rememberMe">
+                                <input name="rememberMe" type="checkbox" value="true">
+                                <input name="rememberMe" type="hidden" value="false"><label for="rememberMe">记住我</label>
+                            </div>
+                        </div>
+                        <div class="form-group no-margins">
+                            <button id="loginBtn" class="btn btn-desktop-default btn-block inputForm m-t-md bg-blue" return false> 登录</button>
+                        </div>
+                    </form>
+                    <iframe name="hiddenFrame" id="hiddenFrame" style="display:none"></iframe>
+                    <p class="requireAgencyInfo m-t-md">还没有申请代理？<a href="">申请代理!</a></p>
+                    <div class="noMeanline"></div>
+                    <div class="inputLoginFooter m-t-md">
+                        <p>
+                            其他登陆：
+                            <a href=""><i class="fa fa-qq text-orange m-l-xs" aria-hidden="true"></i></a>
+                            <a href=""><i class="fa fa-weibo text-orange m-l-xs" aria-hidden="true"></i></a>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script type="text/javascript" src="~/Content/layer/layer.js"></script>
+    <script type="text/javascript" src="~/Scripts/Project/login.js"></script>
+</body>
+</html>

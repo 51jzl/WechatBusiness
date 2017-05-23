@@ -1,0 +1,34 @@
+﻿一.命名规范
+  使用Pascal大小写风格
+ 
+ 1.类(Class)
+   组成类的各个单词首字母大写 如Student,ExamScore等
+
+ 2.方法(Method)
+   组成方法名的各个单词首字母大写 如GetList(),Add()等
+   为便于代码的阅读与维护，方法放于#region #endregion之间
+    
+   #region 添加一条数据 Add(object tran ,Student model)
+   /// <summary>
+   /// 添加一条数据
+   /// </summary>
+   /// <param name="tran">事务</param>
+   /// <param name="model">实体对象</param>
+   /// <returns></returns>
+   public string Add(object tran ,Student model)
+   {
+       .......
+   }
+   #endregion
+
+ 3.变量
+   组成变量的第一个单词首字母小写，之后的单词首字母大写 如 string id="", string userName=""
+
+二 对UI的使用约束
+  1.datagrid数据表格：
+     标题：居中 
+	 数据：文本类型居左 数值类型居右 固定长度的居中 
+
+  2.windows 弹出窗口：
+     宽度：表单分一列录入时 固定宽度450
+	       表单分两列录入时 固定宽度700 

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.skin = Request.Cookies["skin"].Value;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/EasyUI/themes/@ViewBag.skin/easyui.css" rel="stylesheet" />
+    <link href="~/Content/css/themes/@ViewBag.skin/main.css" rel="stylesheet" />
+    <link href="~/Content/css/base.css" rel="stylesheet" />
+    <link href="~/Content/css/icons/icon.css" rel="stylesheet" />
+    @RenderSection("PageSpecificStyle", required: false)
+    <!--加载脚本-->
+    <script src="~/Scripts/jquery-1.8.2.min.js"></script>
+    <script src="~/Content/EasyUI/jquery.easyui.min.js"></script>
+    <script src="~/Content/EasyUI/locale/easyui-lang-zh_CN.js"></script>
+    <script src="~/Scripts/Page/Common.js?V=2015102125689"></script>
+    <script src="~/Scripts/Page/ShortcutKey.js"></script>
+</head>
+<body>
+    <div class="easyui-panel" data-options="fit:true,border:false">
+        @RenderBody()
+    </div>
+    @RenderSection("PageSpecificScript", required: false)
+</body>
+</html>

@@ -1,0 +1,126 @@
+﻿@using HN.Model
+
+@{
+    ViewBag.Title = "分配权限";
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <div class="easyui-layout" data-options="fit:true">
+        <form id="ff" class="easyui-form" action="/Roles/Allot" data-options="novalidate:true" method="post">
+            <div data-options="region:'center',border:false" style="padding-bottom: 3px; ">
+                <input type="hidden" name="roleID" value="@ViewBag.RoleID" />
+                <table id="dg"></table>
+            </div>
+        </form>
+    </div>
+</div>
+<div id="tbar" style="background: #FFFFFF">
+    <span class="icon32 icon-group32" style="padding-left: 45px;margin:3px 5px; font-weight: bold; font-size: 14px; color: #666">@ViewBag.RoleName</span>
+</div>
+
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $('#dg').treegrid({
+            url: '/Roles/GetModuleList/@ViewBag.RoleID',
+            idField: 'ModID',
+            treeField: 'ModName',
+            animate: true,
+            rownumbers: true,
+            fit: true,
+            fitColumns: true,
+            border: false,
+            toolbar: '#tbar',
+            singleSelect: true,
+            columns: [[
+                { title: 'ParentID', field: 'ParentID', hidden: true },
+                {
+                    title: '选择菜单', field: 'ModName', width: 100, formatter: function (value, row, index) {
+                        return '<input type="checkbox" name="ModID" value="' + row.ModID + '"  ' + (row.Chk != '' ? 'checked="checked"' : '') + '>' + value;
+                    }
+                },
+                {
+                    title: '选择按钮', field: 'ButtonList', width: 280, formatter: function (value, row, index) {
+                        if (value != null && value != '') {
+                            var html = '';
+                            var btnList = value.split('|');
+                            for (var i = 0; i < btnList.length; i++) {
+                                var btn = btnList[i].split(',')
+                                html += '&nbsp;<input type="checkbox" name="mbID" value="' + row.ModID + "," + btn[1] + '" ' + (btn[0] != '' ? 'checked="checked"' : '') + '/>' + btn[2]
+                            }
+                            return html;
+                        }
+                    }
+                },
+            ]]
+        });
+
+        $("[name=ModID]:checkbox").live("click", function () {
+            var checked = $(this).attr("checked");
+            if (checked == "checked") {
+                $(this).parent().parent().parent().next().find("input").attr("checked", "checked");
+            }
+            else {
+                $(this).parent().parent().parent().next().find("input").removeAttr("checked");
+            }
+            var parentID = $(this).parent().parent().parent().siblings().eq(0).find("div").text();
+            selectParent(parentID);
+            selectChildren($(this).val(), checked)
+        })
+
+        $("[name=mbID]:checkbox").live("click", function () {
+            var checked = $(this).attr("checked");
+            var $obj = $(this).parent().parent().parent().find("[name=ModID]:checkbox");
+            if ($(this).parent().find("[name=mbID]:checked").length > 0) {
+                $obj.attr("checked", "checked");
+            }
+            var parentID = $obj.parent().parent().parent().siblings().eq(0).find("div").text();
+            selectParent(parentID);
+        })
+
+        //选择上级节点
+        function selectParent(pid) {
+            $("[name=ModID]:checkbox").each(function () {
+                if (pid > 0) {
+                    var count = 0;
+                    $("[name=ModID]:checkbox").each(function () {
+                        var parentID = $(this).parent().parent().parent().siblings().eq(0).find("div").text();
+                        if (pid == parentID && $(this).attr("checked") == "checked") {
+                            count += 1;
+                            return false;
+                        }
+                    })
+                    $("[name=ModID]:checkbox").each(function () {
+                        if ($(this).val() == pid) {
+                            selectParent($(this).parent().parent().parent().siblings().eq(0).find("div").text());
+                            if (count > 0) {
+                                $(this).attr("checked", "checked");
+                            }
+                            else {
+                                $(this).removeAttr("checked");
+                            }
+                            return false;
+                        }
+                    })
+
+                }
+            })
+        }
+        //选择下级节点
+        function selectChildren(modID, checked) {
+            $("[name=ModID]:checkbox").each(function () {
+                var parentID = $(this).parent().parent().parent().siblings().eq(0).find("div").text();
+                if (modID == parentID) {
+                    if (checked == "checked") {
+                        $(this).attr("checked", "checked");
+                        $(this).parent().parent().parent().next().find("input").attr("checked", "checked");
+                    }
+                    else {
+                        $(this).removeAttr("checked");
+                        $(this).parent().parent().parent().next().find("input").removeAttr("checked");
+                    }
+                    selectChildren($(this).val(), $(this).attr("checked"));
+                }
+            })
+        }
+    </script>
+}

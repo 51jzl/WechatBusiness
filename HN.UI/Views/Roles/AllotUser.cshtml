@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "分配用户";
+    Layout = null;
+}
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true" style="padding:5px">
+    <div style="float:left;width:455px;height:100%">
+        <div class="easyui-panel" title="用户列表" data-options="fit:true">
+            <div class="easyui-layout" data-options="fit:true">
+                <div data-options="region:'west',split:true,border:false" style="width:150px">
+                    <ul id="tree"></ul>
+                </div>
+                <div data-options="region:'center',border:true" style="border-top:0;border-right:0;border-bottom:0">
+                    <table id="dg"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div style="float: left;padding-left:5px;padding-top:200px">
+        <a id="btnSelect" class="easyui-linkbutton" style="width:40px" data-options="iconCls:'icon-arrow_right'" href="javascript:void(0)"></a>
+    </div>
+    <div style="float: right; width: 325px; height: 100%">
+        <div class="easyui-panel" title="角色成员
+            <span style='color:red;font-weight:100'> 双击移除成员</span>" data-options="fit:true">
+            <ul id="tree1"></ul>
+        </div>
+    </div>
+</div>
+<div id="tbar">
+    <div class="tbar">
+        <table>
+            <tr>
+                <td>关键字:</td>
+                <td class="td-left"><input type="text" id="txtKey" class="easyui-textbox" /></td>
+                <td class="td-right"><a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="btnSearch_OnClick()">查询</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div id="footer" style="text-align: right; height: 35px; line-height: 33px;padding-right:10px;border-width:1px 0px 0px 0px">
+    <a id="btnCancel" style="margin-top:5px" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:$('#topWin').window('close')">关闭</a>
+</div>
+
+<script type="text/javascript">
+    $("#tree").tree({
+        animate: true,
+        lines: true,
+        url: '/Organizat/GetOrgList?t=2',
+        onSelect: btnSearch_OnClick
+    });
+    $("#dg").datagrid({
+        url: '/Roles/GetNotAllotUser',
+        rownumbers: true,
+        border: false,
+        selectOnCheck: true,
+        checkOnSelect: true,
+        fit: true,
+        fitColumns: true,
+        striped: true,
+        toolbar: '#tbar',
+        columns: [[
+            { field: 'UserID', title: 'UserID', checkbox: true },
+            { field: 'UserCode', title: '编号', width: 60, halign: 'center' },
+            { field: 'UserName', title: '姓名', width: 80, halign: 'center' },
+        ]],
+        queryParams: {
+            roleID: '@ViewBag.RoleID',
+        }
+    });
+    $("#tree1").tree({
+        animate: true,
+        lines: true,
+        url: '/Roles/GetRoleUser?roleID=@ViewBag.RoleID',
+        onDblClick: removeUser
+    });
+
+    function btnSearch_OnClick() {
+        var node = $("#tree").tree("getSelected");
+        var orgID = node != null ? node.id : '';
+        queryData(null, { 'roleID': '@ViewBag.RoleID', 'key': $("#txtKey").val(), 'orgID': orgID });
+    }
+
+    function removeUser(node) {
+        if ($("#tree1").tree('isLeaf', node.target)) {//判断是子节点 添加选显卡
+            message("confirm", "您确定要移除用户[" + node.text + "]吗？", function (r) {
+                if (r) {
+                    getAjax('/Roles/RemoveUser', { userID: node.id, roleID: '@ViewBag.RoleID' }, function (data) {
+                        if (data == '') {
+                            refresh();
+                        }
+                        else {
+                            message("error", data);
+                        }
+                    })
+                }
+            })
+        }
+    }
+
+    $("#btnSelect").click(function () {
+        var rows = $("#dg").datagrid("getChecked");
+        if (rows.length == 0) {
+            message('warning', '未选择任何数据！');
+            return false;
+        }
+        var userIDs = '';
+        for (var i = 0; i < rows.length; i++) {
+            userIDs += ',' + rows[i].UserID;
+        }
+        userIDs = userIDs.substr(1);
+        getAjax('/Roles/AddUser', { userIDs: userIDs, roleID: '@ViewBag.RoleID' }, function (data) {
+            if (data == '') {
+                refresh();
+            }
+            else {
+                message("error", data);
+            }
+        })
+    })
+
+    function refresh() {
+        btnSearch_OnClick();
+        $("#tree1").tree("reload");
+    }
+</script>

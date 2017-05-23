@@ -1,0 +1,70 @@
+﻿@{
+    ViewBag.Title = "组织管理";
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+    </div>
+</div>
+<table id="dg"></table>
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $('#dg').treegrid({
+            url: '/Organizat/GetOrgList',
+            idField: 'OrgID',
+            treeField: 'OrgName',
+            rownumbers: true,
+            animate: true,
+            fit: true,
+            fitColumns: true,
+            toolbar: '#tbar',
+            columns: [[
+                { title: 'OrgID', field: 'OrgID', hidden: true },
+                { title: '组织名称', field: 'OrgName', width: 150, halign: 'center' },
+                { title: '组织编号', field: 'OrgCode', width: 80, halign: 'center' },
+                { title: '主负责人', field: 'Manager', width: 100, halign: 'center' },
+                { title: '内线电话', field: 'InnerPhone', width: 100, halign: 'center' },
+                { title: '外线电话', field: 'OuterPhone', width: 100, halign: 'center' },
+                { title: '传真', field: 'Fax', width: 100, halign: 'center' },
+                { title: '显示顺序', field: 'Sort', width: 80, halign: 'center', align: 'right' },
+            ]]
+        });
+        function btnSearch_OnClick() {
+            $("#dg").treegrid("clearSelections"); //清除所有选择的行 设置了idField会存在缓存
+            $('#dg').treegrid('load');
+        }
+        function btnDelete_OnClick() {
+            var row = $("#dg").treegrid("getSelected");
+            if (row == null) {
+                message('warning', '请选择数据！');
+                return false;
+            }
+            var children = $("#dg").treegrid("getChildren", row.OrgID);
+            if (children.length > 0) {
+                message('warning', '请先删除子节点！');
+                return false;
+            }
+            message("confirm", "您确定要删除该组织吗", function (r) {
+                if (r) {
+                    getAjax('/Organizat/Delete', { id: row.OrgID }, function (data) {
+                        if (data == '') {
+                            btnSearch_OnClick();
+                        }
+                        else {
+                            message("error", data);
+                        }
+                    })
+                }
+            })
+        }
+        function btnAdd_OnClick() {
+            addData("/Organizat/Edit", "新增菜单", 700, 400);
+        }
+        function btnEdit_OnClick() {
+            editData("/Organizat/Edit", "编辑菜单", 700, 400);
+        }
+    </script>
+}

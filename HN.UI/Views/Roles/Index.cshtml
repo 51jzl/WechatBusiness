@@ -1,0 +1,51 @@
+﻿@{
+    ViewBag.Title = "角色管理";
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+    </div>
+</div>
+<table id="dg"></table>
+
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $("#dg").datagrid({
+            url: '/Roles/GetRoleList',
+            idField: 'RoleID',
+            rownumbers: true,
+            fit: true,
+            singleSelect: true,
+            striped: true,
+            toolbar: '#tbar',
+            columns: [[
+                { field: 'RoleID', title: 'RoleID', hidden: true },
+                { field: 'RoleName', title: '角色名称', width: 120, halign: 'center' },
+                { field: 'IsDefault', title: '默认', width: 100, halign: 'center', align: 'center', formatter: function (value,row) { if (value == 1) return '是'; else return '否'} },
+                { field: 'Sort', title: '显示顺序', width: 100, halign: 'center', align: 'right' },
+                { field: 'Remark', title: '备注', width: 300, halign: 'center' },
+            ]]
+        })
+        function btnSearch_OnClick() {
+            queryData();
+        }
+        function btnDelete_OnClick() {
+            deleteData('/Roles/Delete');
+        }
+        function btnAdd_OnClick() {
+            addData("/Roles/Edit", "新增角色", 450, 300);
+        }
+        function btnEdit_OnClick() {
+            editData("/Roles/Edit", "编辑角色", 450, 300);
+        }
+        function btnAllot_OnClick() {
+            editData("/Roles/Allot", "分配权限", 700, 500, 'icon-chart_organisation_add')
+        }
+        function btnAllotUser_OnClick() {
+            editData("/Roles/AllotUser", "分配用户", 860, 500, 'icon-users')
+        }
+    </script>
+}

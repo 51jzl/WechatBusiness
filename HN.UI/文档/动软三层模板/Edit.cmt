@@ -1,0 +1,36 @@
+﻿<#@ template language="c#" HostSpecific="True" #>
+<#@ output extension= "Edit.cshtml" #>
+<#
+	TableHost host = (TableHost)(Host);		
+	string ModelSpace = host.GetModelClass(host.TableName)+"Info";
+	ColumnInfo identityKey=host.IdentityKey;
+	string returnValue = "void";
+    if (identityKey!=null)
+    {         
+         returnValue = CodeCommon.DbTypeToCS(identityKey.TypeName);              
+    }
+#>
+@using HN.Model
+@model <#= ModelSpace #>
+
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <form id="ff" class="easyui-form" action="/<#= host.TableName #>/Edit/@Model.<#=CodeCommon.GetFieldstrlist(host.Keys, false)#>" data-options="novalidate:true" method="post">
+        @Html.HiddenFor(m => m.<#=CodeCommon.GetFieldstrlist(host.Keys, false)#>)
+        <table class="tfrm">
+<# for(int i=0;i< host.Fieldlist.Count;i++) { #>
+<# if (!host.Fieldlist[i].IsPrimaryKey){ #>
+            <tr><td><#= host.Fieldlist[i].Description #>:</td><td>@Html.TextBoxFor(m => m.<#= host.Fieldlist[i].ColumnName #>, new { @class = "<# 
+            if (host.Fieldlist[i].TypeName=="int" || host.Fieldlist[i].TypeName=="tinyint"|| host.Fieldlist[i].TypeName=="bigint"|| host.Fieldlist[i].TypeName=="decimal"){ 
+            #>easyui-numberbox<#} else if(host.Fieldlist[i].TypeName=="datetime"||host.Fieldlist[i].TypeName=="date") {#>easyui-datebox<#} else{#>easyui-textbox<#}#>", data_options = "<# 
+            if (!host.Fieldlist[i].Nullable){ #>required:true<#}#>"<# if((host.Fieldlist[i].TypeName=="int" || host.Fieldlist[i].TypeName=="tinyint"|| host.Fieldlist[i].TypeName=="bigint"|| host.Fieldlist[i].TypeName=="decimal") && !host.Fieldlist[i].Nullable)
+            {#>, Value = Model.<#= host.Fieldlist[i].ColumnName #>.ToString()=="0"?"":Model.<#= host.Fieldlist[i].ColumnName #>.ToString()<#}#> })<# if (!host.Fieldlist[i].Nullable){ #><span class="required">*</span><#}#></td></tr>
+<#}#>
+<#}#>
+        </table>
+    </form>
+</div>

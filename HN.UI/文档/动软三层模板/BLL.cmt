@@ -1,0 +1,138 @@
+﻿<#@ template language="c#" HostSpecific="True" #>
+<#@ output extension= ".cs" #>
+<#
+	TableHost host = (TableHost)(Host);		
+	string ModelSpace = host.GetModelClass(host.TableName)+"Info";
+	string DALSpace= host.NameSpace+".DAL."+ host.GetDALClass(host.TableName);
+	ColumnInfo identityKey=host.IdentityKey;
+	string returnValue = "void";
+    if (identityKey!=null)
+    {         
+         returnValue = CodeCommon.DbTypeToCS(identityKey.TypeName);              
+    }
+#>
+using System; 
+using System.Text;
+using System.Collections.Generic; 
+using System.Data;
+using HN.Model;
+using HN.Utility;
+
+namespace HN.BLL
+<# if( host.Folder.Length > 0){ #>
+	.<#= host.Folder #>
+<# } #>
+{
+	/// <summary>
+	/// <# if( host.TableDescription.Length > 0) {#><#= host.TableDescription #>
+	<# }#>/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+	/// </summary>
+	public class <#= host.GetBLLClass(host.TableName) #>
+	{
+		private readonly DAL.<#= host.GetBLLClass(host.TableName) #> dal=new DAL.<#= host.GetBLLClass(host.TableName) #>();
+
+		#region 是否存在该记录 Exists(object tran,<#= CodeCommon.GetInParameter(host.Keys, false) #>)
+		/// <summary>
+		/// 是否存在该记录
+	    /// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Exists(object tran,<#= CodeCommon.GetInParameter(host.Keys, false) #>)
+		{
+			return dal.Exists(tran,<#= CodeCommon.GetFieldstrlist(host.Keys, false)#>);
+		}
+        #endregion
+        
+        #region 增加一条数据 Add(object tran,<#= ModelSpace #> model)
+		/// <summary>
+		/// 增加一条数据
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Add(object tran,<#= ModelSpace #> model)
+		{
+			return dal.Add(tran,model);		
+		}
+        #endregion
+        
+        #region 更新一条数据 Update(object tran,<#= ModelSpace #> model)
+		/// <summary>
+		/// 更新一条数据
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Update(object tran,<#= ModelSpace #> model)
+		{
+			return dal.Update(tran,model);
+		}
+        #endregion
+        
+        #region  删除一条数据 Delete(object tran,<#=CodeCommon.GetInParameter(host.Keys, true)#>)
+		/// <summary>
+		/// 删除一条数据
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public bool Delete(object tran,<#=CodeCommon.GetInParameter(host.Keys, true)#>)
+		{
+			return dal.Delete(tran,<#=CodeCommon.GetFieldstrlist(host.Keys, true)#>);
+		}
+        #endregion
+        
+        #region 得到一个对象实体 <#= ModelSpace #> GetModel(object tran,<#= CodeCommon.GetInParameter(host.Keys,true) #>)
+		/// <summary>
+		/// 得到一个对象实体
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public <#= ModelSpace #> GetModel(object tran,<#= CodeCommon.GetInParameter(host.Keys,true) #>)
+		{
+			return dal.GetModel(tran,<#=CodeCommon.GetFieldstrlist(host.Keys, true)#>);
+		}
+        #endregion
+        
+        #region 获得数据列表 GetList(int PageSize, int PageIndex)
+		/// <summary>
+		/// 获得数据列表
+	    /// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public DataTable GetList(int PageSize, int PageIndex)
+		{
+			return dal.GetList(PageSize,PageIndex);
+		}
+		#endregion
+		
+		#region 添加/编辑 AddOrEdit(<#= ModelSpace #> model)
+		/// <summary>
+		/// 添加/编辑
+		/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+		/// </summary>
+		public string AddOrEdit(<#= ModelSpace #> model)
+		{
+			string strReturn = "";
+            try
+            {
+                if (model.<#=CodeCommon.GetFieldstrlist(host.Keys, false)#> == 0)//添加
+                {
+                    ////示例 判断登录名是否重复
+                    //if (Exists(null,model.<#=CodeCommon.GetFieldstrlist(host.Keys, false)#>))
+                    //{
+                    //    throw new Exception("[" + model.LoginName + "]已存在，请重新输入！");
+                    //}
+                   if (!Add(null, model))
+                   {
+                       strReturn = ErrorPrompt.AddError;
+                   }
+                }
+                else  //编辑
+                {
+                   if (!Update(null, model))
+                   {
+                       strReturn = ErrorPrompt.UpdateError;
+                   }
+                }
+            }
+            catch (Exception ex)
+            {
+                strReturn = new Tools().GetErrorInfo(ex);
+            }
+            return strReturn;
+        }
+        #endregion   
+	}
+}

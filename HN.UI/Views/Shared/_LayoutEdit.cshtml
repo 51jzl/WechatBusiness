@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.skin = Request.Cookies["skin"].Value;
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+</head>
+<body>
+    @RenderBody()
+    <div id="footer" style="text-align: right; height: 35px; line-height: 33px;padding-right:10px;border-width:1px 0px 0px 0px">
+        <a id="btnSave" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)">确定</a>
+        <a id="btnCancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:$('#topWin').window('close')">取消</a>
+    </div>
+    @RenderSection("PageSpecificScript", required: false)
+    <script type="text/javascript">
+        $("#btnSave").click(function () {
+            $('#ff').form('submit', {
+                onSubmit: function () {
+                    return $(this).form('enableValidation').form('validate');
+                },
+                dataType: 'text',
+                success: submitSuccess
+            });
+        })
+    </script>
+</body>
+</html>

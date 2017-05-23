@@ -1,0 +1,99 @@
+﻿@{
+    ViewBag.Title = "菜单管理";
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+    </div>
+</div>
+<table id="dg"></table>
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $('#dg').treegrid({
+            url: '/Module/GetList',
+            idField: 'ModID',
+            treeField: 'ModName',
+            rownumbers: true,
+            animate: true,
+            fit: true,
+            fitColumns: true,
+            striped: true,
+            toolbar: '#tbar',
+            columns: [[
+                { title: 'ModID', field: 'ModID', hidden: true },
+                { title: 'ParentID', field: 'ParentID', hidden: true },
+                { title: '菜单名称', field: 'ModName', width: 120, halign: 'center' },
+                { title: '菜单标题', field: 'ModTitle', width: 120, halign: 'center' },
+                { title: '打开方式', field: 'Targe', width: 80, halign: 'center', align: 'center' },
+                { title: '链接地址', field: 'Link', width: 150, halign: 'center' },
+                { title: '图标', field: 'iconCls', width: 120, halign: 'center' },
+                {
+                    title: '类型', field: 'Type', width: 80, halign: 'center', formatter: function (value, row, index) {
+                        return value == 0 ? "通用" : (value == 1 ? "System" : "用户");
+                    }
+                },
+                {
+                    title: '是否启用', field: 'IsEnable', width: 80, halign: 'center', align: 'center', formatter: function (value, row, index) {
+                        return value == 1 ? "是" : "<span style='color:red'>否</span>";
+                    }
+                },
+                { title: '显示顺序', field: 'Sort', width: 80, halign: 'center', align: 'right' },
+            ]]
+        });
+        function btnSearch_OnClick() {
+            $("#dg").treegrid("clearSelections"); //清除所有选择的行 设置了idField会存在缓存
+            $('#dg').treegrid('load');
+        }
+        function btnDelete_OnClick() {
+            var row = $("#dg").treegrid("getSelected");
+            if (row == null) {
+                message('warning', '请选择数据！');
+                return false;
+            }
+            var children = $("#dg").treegrid("getChildren", row.ModID);
+            if (children.length > 0) {
+                message('warning', '请先删除子节点！');
+                return false;
+            }
+            message("confirm", "您确定要删除该菜单吗", function (r) {
+                if (r) {
+                    getAjax('/Module/Delete', { id: row.ModID }, function (data) {
+                        if (data == '') {
+                            btnSearch_OnClick();
+                        }
+                        else {
+                            message("error", data);
+                        }
+                    })
+                }
+            })
+        }
+        function btnAdd_OnClick() {
+            addData("/Module/Edit", "新增菜单", 450, 420);
+        }
+        function btnEdit_OnClick() {
+            var row = $("#dg").datagrid("getSelected");
+            if (row == null) {
+                message('warning', '请选择数据！');
+                return false;
+            }
+            openTopWin("/Module/Edit/" + row.ModID, "编辑菜单", 450, 420, 'icon-edit');
+        }
+        function btnSetButton_OnClick() {
+            var row = $("#dg").treegrid("getSelected");
+            if (row == null) {
+                message('warning', '请选择数据！');
+                return false;
+            }
+            var children = $("#dg").treegrid("getChildren", row.ModID);
+            if (children.length > 0 || row.ParentID == 0) {
+                message('warning', '请选择子菜单！');
+                return false;
+            }
+            openTopWin("/Module/SetButton/" + row.ModID, "分配按钮", 565, 400, 'icon-bricks');
+        }
+    </script>
+}

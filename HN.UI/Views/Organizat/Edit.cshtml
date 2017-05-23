@@ -1,0 +1,72 @@
+﻿@using HN.Model
+@model OrganizationInfo
+@{
+    ViewBag.Title = "编辑组织";
+    Layout = null;
+}
+
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <form id="ff" class="easyui-form" action="/Organizat/Edit/@Model.OrgID" data-options="novalidate:true" method="post">
+        @Html.HiddenFor(m => m.OrgID)
+        <table class="tfrm2">
+            <tr>
+                <td>组织编号:</td>
+                <td>@Html.TextBoxFor(m => m.OrgCode, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td>
+                <td>组织名称:</td>
+                <td>@Html.TextBoxFor(m => m.OrgName, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td>
+            </tr>
+            <tr>
+                <td>主负责人:</td>
+                <td>@Html.TextBoxFor(m => m.Manager, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td>
+                <td>副负责人:</td>
+                <td>@Html.TextBoxFor(m => m.AssistantManager, new { @class = "easyui-textbox" })</td>
+            </tr>
+            <tr>
+                <td>内线电话:</td>
+                <td>@Html.TextBoxFor(m => m.InnerPhone, new { @class = "easyui-textbox" })</td>
+                <td>外线电话:</td>
+                <td>@Html.TextBoxFor(m => m.OuterPhone, new { @class = "easyui-textbox", data_options = "validType:'tel'" })</td>
+            </tr>
+            <tr>
+                <td>传真:</td>
+                <td>@Html.TextBoxFor(m => m.Fax, new { @class = "easyui-textbox" })</td>
+                <td>所在地址:</td>
+                <td>@Html.TextBoxFor(m => m.Address, new { @class = "easyui-textbox" })</td>
+            </tr>
+            <tr>
+                <td>上级组织:</td>
+                <td>
+                    <select id="ParentID" name="ParentID" class="easyui-combotree" data-options="url:'/Organizat/GetOrgList?t=1',value:@Model.ParentID"></select>
+                </td>
+                <td>显示顺序:</td>
+                <td><input name="Sort" class="easyui-textbox" data-options="required:true,validType:'number'" value="@Html.Raw(Model.OrgID.ToString()=="0"?"":Model.Sort.ToString())" /><span class="required">*</span></td>
+            </tr>
+            <tr>
+                <td>备注:</td>
+                <td colspan="3">@Html.TextBoxFor(m => m.Remark, new { @class = "easyui-textbox", @style = "width:520px;height:100px", @data_options = "multiline:true" })</td>
+            </tr>
+        </table>
+    </form>
+</div>
+<div id="footer" style="text-align: right; height: 35px; line-height: 33px; padding-right: 10px; border-width: 1px 0px 0px 0px">
+    <a id="btnSave" class="easyui-linkbutton" data-options="iconCls:'icon-ok'" href="javascript:void(0)">确定</a>
+    <a id="btnCancel" class="easyui-linkbutton" data-options="iconCls:'icon-cancel'" href="javascript:void(0)" onclick="javascript:$('#topWin').window('close')">取消</a>
+</div>
+<script type="text/javascript">
+    $("#btnSave").click(function () {
+        $('#ff').form('submit', {
+            onSubmit: function () {
+                if ($(this).form('enableValidation').form('validate')) {
+                    if ($("#OrgID").val() != 0 && $("#OrgID").val() == $("#ParentID").combo("getValue")) {
+                        message('warning', '不能选择当前组织作为上级！');
+                        return false;
+                    }
+                } else {
+                    return false;
+                }
+            },
+            dataType: 'text',
+            success: submitSuccess
+        });
+    })
+</script>

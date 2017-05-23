@@ -1,0 +1,48 @@
+﻿@using System.Data;
+@{
+    ViewBag.Title = "设置按钮";
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+    DataTable dt = ViewBag.ButtonList as DataTable;
+}
+<link href="~/Content/css/modern.css" media="screen" rel="stylesheet" />
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <form id="ff" class="easyui-form" action="/Module/SetButton/@ViewBag.ModID" data-options="novalidate:true" method="post">
+        <div style="border-bottom:1px solid #CCC; margin-bottom:5px;padding:3px">
+            <span class="icon32 icon-settings32" style="padding-left:48px;font-weight:bold; font-size:14px;color:#666;">请选择页面按钮</span>
+        </div>
+        <div class="metrouicss">
+            <label class="input-control checkbox" style="margin-top:6px;margin-left:3px;">
+                <input id="chkAll" type="checkbox"><span class="helper">全选</span>
+            </label>
+            <ul class="listview" data-bind="foreach: buttons" style="clear:both">
+                @for (int i = 0; i < dt.Rows.Count; i++)
+                {
+                    <li class="@Html.Raw(dt.Rows[i]["ModID"].ToString()!=""?"selected":"")"><span class="icon icon-@dt.Rows[i]["Icon"]">@dt.Rows[i]["BtnName"]</span><input type="checkbox" name="BtnID" value="@dt.Rows[i]["BtnID"]" @Html.Raw(dt.Rows[i]["ModID"].ToString() != "" ? "checked='checked'" : "") style="display:none" /></li>
+                }
+            </ul>
+        </div>
+    </form>
+</div>
+@section PageSpecificScript{
+    <script type="text/javascript">
+        $(".listview li").click(function () {
+            var cls = $(this).attr("class");
+            if (cls == "selected") {
+                $(this).find("input").removeAttr("checked");
+            } else {
+                $(this).find("input").attr("checked","checked");
+            }
+            $(this).toggleClass("selected");
+        })
+        $("#chkAll").click(function () {
+            if ($(this).attr("checked")=="checked") {
+                $("[name = BtnID]:checkbox").attr("checked", "checked");
+                $(".listview li").addClass("selected");
+            } else {
+                $("[name = BtnID]:checkbox").removeAttr("checked");
+                $(".listview li").removeClass("selected");
+            }
+        })
+    </script>
+}
+

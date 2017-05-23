@@ -1,0 +1,166 @@
+﻿@using HN.Model
+@model UsersInfo
+@{
+    ViewBag.Title = "编辑用户";
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <div class="easyui-layout" data-options="fit:true">
+        <form id="ff" class="easyui-form" action="/Users/Edit/@Model.UserID" data-options="novalidate:true" method="post">
+            <div data-options="region:'center',border:false">
+                <div id="tab" class="easyui-tabs" data-options="border:false,fit:true,onSelect:'GetFucus'">
+                    <div title="基本信息">
+                        @Html.HiddenFor(m => m.UserID)
+                        <input id="orgIds" name="orgIds" type="hidden" />
+                        <table class="tfrm2">
+                            <tr>
+                                <td>编号:</td>
+                                <td>@Html.TextBoxFor(m => m.UserCode, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td>
+                                <td>姓名:</td>
+                                <td>@Html.TextBoxFor(m => m.UserName, new { @class = "easyui-textbox", data_options = "required:true" })<span class="required">*</span></td>
+                            </tr>
+                            <tr>
+                                <td>登录名:</td>
+                                <td>@Html.TextBoxFor(m => m.LoginName, new { @class = "easyui-textbox" })</td>
+                                <td>性别:</td>
+                                <td>@Html.DropDownListFor(m => m.Gender, new List<SelectListItem>() { new SelectListItem { Value = "0", Text = "男" }, new SelectListItem { Value = "1", Text = "女" } }, new { @class = "easyui-combobox", editable = "false" })</td>
+                            </tr>
+                            <tr>
+                                <td>出生日期:</td>
+                                <td>@Html.TextBoxFor(m => m.Birthday, new { @class = "easyui-datebox", data_options = "editable:false,panelWidth:205", @Value = Html.Raw(Model.UserID == 0 ? "1990-01-01" : Model.Birthday.ToString("yyyy-MM-dd")) })</td>
+                                <td>邮箱:</td>
+                                <td>@Html.TextBoxFor(m => m.Email, new { @class = "easyui-textbox", data_options = "validType:'email'" })</td>
+                            </tr>
+                            <tr>
+                                <td>手机:</td>
+                                <td>@Html.TextBoxFor(m => m.Phone, new { @class = "easyui-textbox", data_options = "validType:'mobile'" })</td>
+                                <td>固话:</td>
+                                <td>@Html.TextBoxFor(m => m.Tel, new { @class = "easyui-textbox", data_options = "validType:'tel'" })</td>
+                            </tr>
+                            <tr>
+                                <td>QQ:</td>
+                                <td>@Html.TextBoxFor(m => m.QQ, new { @class = "easyui-textbox", data_options = "validType:'qq'" })</td>
+                                <td>住址:</td>
+                                <td>@Html.TextBoxFor(m => m.HomeAddress, new { @class = "easyui-textbox" })</td>
+                            </tr>
+                            <tr>
+                                <td>个人简介:</td>
+                                <td colspan="3">@Html.TextBoxFor(m => m.Description, new { @class = "easyui-textbox", style = "width:520px; height:100px", @data_options = "multiline:true" })</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div title="详细信息">
+                        <table class="tfrm2">
+                            <tr>
+                                <td>身份证号:</td>
+                                <td>@Html.TextBoxFor(m => m.IDCard, new { @class = "easyui-textbox" })</td>
+                                <td>出生地:</td>
+                                <td>@Html.TextBoxFor(m => m.NativePlace, new { @class = "easyui-textbox" })</td>
+                            </tr>
+                            <tr>
+                                <td>名族:</td>
+                                <td>@Html.TextBoxFor(m => m.Nation, new { @class = "easyui-textbox" })</td>
+                                <td>职位:</td>
+                                <td>@Html.TextBoxFor(m => m.ProFessTitle, new { @class = "easyui-textbox" })</td>
+                            </tr>
+                            <tr>
+                                <td>毕业院校:</td>
+                                <td>@Html.TextBoxFor(m => m.School, new { @class = "easyui-textbox" })</td>
+                                <td>专业:</td>
+                                <td>@Html.TextBoxFor(m => m.Major, new { @class = "easyui-textbox" })</td>
+                            </tr>
+                            <tr>
+                                <td>最高学历:</td>
+                                <td>@Html.DropDownListFor(m => m.Education, ViewBag.EducationList as SelectList, new { @class = "easyui-combobox", editable = "false" })</td>
+                                <td>最高学位:</td>
+                                <td>@Html.DropDownListFor(m => m.Degree, ViewBag.DegreeList as SelectList, new { @class = "easyui-combobox", editable = "false" })</td>
+                            </tr>
+                            <tr>
+                                <td>入职日期:</td>
+                                <td>@Html.TextBoxFor(m => m.JoinInDate, new { @class = "easyui-datebox", data_options = "editable:false,panelWidth:205", @Value = Html.Raw(Model.UserID == 0 ? DateTime.Now.ToString("yyyy-MM-dd") : Model.JoinInDate.ToString("yyyy-MM-dd")) })</td>
+                                <td>离职日期:</td>
+                                <td>@Html.TextBoxFor(m => m.DimissionDate, new { @class = "easyui-datebox", data_options = "editable:false,panelWidth:205", @Value = Html.Raw(Model.UserID == 0 ? "" : (Model.DimissionDate != null ? ((DateTime)Model.DimissionDate).ToString("yyyy-MM-dd") : "")) })</td>
+                            </tr>
+                            <tr>
+                                <td>离职原因:</td>
+                                <td colspan="3">@Html.TextBoxFor(m => m.DimissionCause, new { @class = "easyui-textbox", style = "width:520px;height:100px", @data_options = "multiline:true" })</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div title="所属组织">
+                        <table id="dg"></table>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+@section PageSpecificScript{
+    <script type="text/javascript">
+    $('#dg').treegrid({
+        url: '/Organizat/GetUserOrg/@Model.UserID',
+        idField: 'OrgID',
+        treeField: 'OrgName',
+        rownumbers: true,
+        animate: true,
+        fit: true,
+        fitColumns: true,
+        columns: [[
+            { title: 'ParentID', field: 'ParentID', hidden: true },
+            {
+                title: '选择组织', field: 'OrgName', width: 150, formatter: function (value, row) {
+                    return '<input type="checkbox" name="OrgID" value="' + row.OrgID + '"  ' + (row.Chk != '' ? 'checked="checked"' : '') + '>' + value;
+                }
+            },
+        ]]
+    });
+
+    $("[name=OrgID]:checkbox").live("click", function () {
+        var checked = $(this).attr("checked");
+        var parentID = $(this).parent().parent().parent().siblings().eq(0).find("div").text();
+        selectParent(parentID);
+        selectChildren($(this).val(), checked);
+    })
+
+    //选择上级节点
+    function selectParent(pid) {
+        $("[name=OrgID]:checkbox").each(function () {
+            if (pid > 0) {
+                var checked = $(this).attr("checked");
+                $("[name=OrgID]:checkbox").each(function () {
+                    if (pid == $(this).val() && checked == "checked") {
+                        $(this).attr("checked", "checked");
+                        selectParent($(this).parent().parent().parent().siblings().eq(0).find("div").text());
+                        return false;
+                    }
+                })
+            }
+        })
+    }
+    //选择下级节点
+    function selectChildren(modID, checked) {
+        $("[name=OrgID]:checkbox").each(function () {
+            var parentID = $(this).parent().parent().parent().siblings().eq(0).find("div").text();
+            if (modID == parentID) {
+                if (checked != "checked") {
+                    $(this).removeAttr("checked");
+                }
+                selectChildren($(this).val(), $(this).attr("checked"));
+            }
+        })
+    }
+
+    $('#tab').tabs({
+        onSelect: function () {
+            //表单ff中文本框
+            $(".easyui-form :text:visible:enabled").each(function () {
+                if ($(this).attr("readonly") != "readonly") {
+                    $(this).focus().select();
+                    return false;
+                }
+            })
+        }
+    });
+    </script>
+}

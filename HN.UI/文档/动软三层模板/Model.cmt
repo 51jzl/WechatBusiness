@@ -1,0 +1,36 @@
+﻿<#@ template language="c#" HostSpecific="True" #>
+<#@ output extension= "Info.cs" #>
+<#
+	TableHost host = (TableHost)(Host);
+	host.Fieldlist.Sort(CodeCommon.CompareByintOrder);
+	host.TableName+="Info";
+#>
+using System; 
+
+namespace HN.Model<# if( host.Folder.Length > 0) {#>.<#= host.Folder #><# } #>
+
+{
+	/// <summary>
+	/// <# if( host.TableDescription.Length > 0) {#><#= host.TableDescription #>
+	<# }#>/// Author <#=DateTime.Now.ToString("yyyy-MM-dd")#>
+	/// </summary>  
+    public class <#= host.GetModelClass(host.TableName) #>
+	{
+   		<# foreach (ColumnInfo c in host.Fieldlist)
+		{  string isNull=""; string defaultValue=""; #><# if (c.Nullable&&(c.TypeName=="int" || c.TypeName=="tinyint"||c.TypeName=="bigint"||c.TypeName=="decimal"||c.TypeName=="datetime"||c.TypeName=="date"))
+		    { isNull="?";}#><# if (c.DefaultVal!=""){ if(c.DefaultVal=="getdate"){ defaultValue="=DateTime.Now";} else if(c.TypeName=="varchar"||c.TypeName=="nvarchar"||c.TypeName=="text"){defaultValue="=\""+c.DefaultVal.Substring(1,c.DefaultVal.Length-2)+"\"";} else { defaultValue="="+c.DefaultVal;}}#>
+private <#= CodeCommon.DbTypeToCS(c.TypeName)+isNull #> _<#= c.ColumnName.ToString().ToLower()+defaultValue #>;
+		<# } #>
+		
+      	<# foreach (ColumnInfo c in host.Fieldlist)
+		{ string isNull="";if (c.Nullable&&(c.TypeName=="int" || c.TypeName=="tinyint"||c.TypeName=="bigint"||c.TypeName=="decimal"||c.TypeName=="datetime"||c.TypeName=="date")){ isNull="?";} #>/// <summary>
+		/// <#= string.IsNullOrEmpty(c.Description) ? c.ColumnName : c.Description #>
+        /// </summary>
+        public <#= CodeCommon.DbTypeToCS(c.TypeName)+isNull #> <#= c.ColumnName #>
+        {
+            get{ return _<#= c.ColumnName.ToString().ToLower()#>; }
+            set{ _<#= c.ColumnName.ToString().ToLower() #> = value; }
+        }
+        <# } #>		
+    }
+}

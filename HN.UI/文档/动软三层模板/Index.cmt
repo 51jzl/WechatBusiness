@@ -1,0 +1,67 @@
+﻿<#@ template language="c#" HostSpecific="True" #>
+<#@ output extension= "Index.cshtml" #>
+<#
+	TableHost host = (TableHost)(Host);		
+	string ModelSpace = host.GetModelClass(host.TableName)+"Info";
+	ColumnInfo identityKey=host.IdentityKey;
+	string returnValue = "void";
+    if (identityKey!=null)
+    {         
+         returnValue = CodeCommon.DbTypeToCS(identityKey.TypeName);              
+    }
+#>
+@{
+    ViewBag.Title = "";
+    Layout = "~/Views/Shared/_LayoutList.cshtml";
+}
+<div id="tbar">
+    <div class="tbar">
+        <div class="z-toolbar">
+            @Html.Raw(ViewBag.btnHtml)
+        </div>
+        <table>
+            <tr>
+                <td>查询条件:</td>
+                <td class="td-left"><input type="text" id="txtKey" class="easyui-textbox" /></td>
+                <td class="td-right"><a id="btnSearch" href="#" class="easyui-linkbutton" data-options="iconCls:'icon-search'" onclick="btnSearch_OnClick()">查询</a></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<table id="dg"></table>
+@section PageSpecificScript{
+    <script type="text/javascript">
+      $("#dg").datagrid({
+            url: '/<#= host.TableName #>/GetList',
+            idField: '<#=CodeCommon.GetFieldstrlist(host.Keys, false)#>',
+            pagination: true,
+            pageSize: 20,
+            rownumbers: true,
+            fit: true,
+            fitColumns: true,
+            singleSelect: true,
+            striped: true,
+            toolbar: '#tbar',
+            columns: [[
+        <# for(int i=0;i< host.Fieldlist.Count;i++) { #>
+        <# if (host.Fieldlist[i].IsPrimaryKey || host.Fieldlist[i].IsIdentity){#>
+{field: '<#= host.Fieldlist[i].ColumnName #>', title: '<#= host.Fieldlist[i].ColumnName #>', hidden: true},
+        <#}else {#>
+{field: '<#= host.Fieldlist[i].ColumnName #>', title: '<#= host.Fieldlist[i].Description #>', width: 100, halign: 'center'},               
+        <#}}#>
+            ]]
+        })
+        function btnSearch_OnClick() {
+            queryData(null, { 'key': $("#txtKey").val() });
+        }
+        function btnDelete_OnClick() {
+            deleteData('/<#= host.TableName #>/Delete');
+        }
+        function btnAdd_OnClick() {
+            addData("/<#= host.TableName #>/Edit", "新增", 450, 380);
+        }
+        function btnEdit_OnClick() {
+            editData("/<#= host.TableName #>/Edit", "编辑", 450, 380);
+        }
+    </script>
+}

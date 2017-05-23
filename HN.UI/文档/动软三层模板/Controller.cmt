@@ -1,0 +1,83 @@
+﻿<#@ template language="c#" HostSpecific="True" #>
+<#@ output extension= "Controller.cs" #>
+<#
+	TableHost host = (TableHost)(Host);		
+	string ModelSpace = host.GetModelClass(host.TableName)+"Info";
+	ColumnInfo identityKey=host.IdentityKey;
+	string returnValue = "void";
+    if (identityKey!=null)
+    {         
+         returnValue = CodeCommon.DbTypeToCS(identityKey.TypeName);              
+    }
+#>
+using System;
+using System.Web.Mvc;
+using System.Data;
+using Newtonsoft.Json;
+using HN.BLL;
+using HN.Model;
+using HN.Utility;
+
+namespace HN.UI.Controllers
+<# if( host.Folder.Length > 0){ #>
+	.<#= host.Folder #>
+<# } #>
+{
+	public class <#= host.GetBLLClass(host.TableName) #>Controller : Controller
+	{
+		private <#= host.GetBLLClass(host.TableName) #> bll=new <#= host.GetBLLClass(host.TableName) #>();	
+		
+		#region View-列表页 Index()
+        [GlobalFilter("menu")]
+        public ActionResult Index()
+        {
+            return View();
+        }
+        #endregion
+        
+        #region Method-获取列表 GetList(int rows, int page)
+        public string GetList(int rows, int page)
+        {
+            DataTable dt =bll.GetList(rows, page);
+            int pageCount = Convert.ToInt32(dt.DataSet.Tables["Page_TotalCount"].Rows[0][0].ToString());
+            return JsonConvert.SerializeObject(new { rows = dt, total = pageCount });
+        }
+        #endregion
+        
+        #region View-添加/编辑页面 Edit(string id)
+        [GlobalFilter("btn", "/<#= host.TableName #>/Index")]
+        public ActionResult Edit(string id)
+        {
+            <#=ModelSpace#> model=new <#=ModelSpace#>();
+            if (!string.IsNullOrEmpty(id))
+            {
+                model = bll.GetModel(null, Convert.ToInt32(id));
+            }
+            return View(model);
+        }
+        #endregion
+        
+        #region Method-添加/编辑保存方法 Edit(<#=ModelSpace#> model)
+        [HttpPost]
+        [GlobalFilter("btn", "/<#= host.TableName #>/Index")]
+        public string Edit(<#=ModelSpace#> model)
+        {
+            return bll.AddOrEdit(model);
+        }
+        #endregion
+        
+        #region Method-删除方法 Delete(int id)
+        [HttpPost]
+        [GlobalFilter("btn", "/<#= host.TableName #>/Index")]
+        public string Delete(int id)
+        {
+            string strReturn = "";
+            if (!bll.Delete(null, id))
+            {
+                strReturn = ErrorPrompt.DeleError;
+            }
+            return strReturn;
+        }
+        #endregion
+	}
+}

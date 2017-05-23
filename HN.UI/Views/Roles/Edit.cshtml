@@ -1,0 +1,18 @@
+﻿@using HN.Model
+@model RolesInfo
+
+@{
+    ViewBag.Title = "编辑角色";
+    Layout = "~/Views/Shared/_LayoutEdit.cshtml";
+}
+
+<div class="easyui-panel" data-options="footer:'#footer',border:false,fit:true">
+    <form id="ff" class="easyui-form" action="/Roles/Edit/@Model.RoleID" data-options="novalidate:true" method="post">
+        @Html.HiddenFor(m => m.RoleID)
+        <table class="tfrm">
+            <tr><td>角色名称:</td><td>@Html.TextBoxFor(m => m.RoleName, new { @class = "easyui-textbox", @data_options = "required:true" })<span class="required">*</span></td></tr>
+            <tr><td>显示顺序:</td><td>@Html.TextBoxFor(m => m.Sort, new { @class = "easyui-textbox", data_options = "required:true,validType:'number'", Value = Model.RoleID.ToString() == "0" ? "" : Model.Sort.ToString() })<span class="required">*</span></td></tr>
+            <tr><td>备注说明:</td><td>@Html.TextBoxFor(m => m.Remark, new { @class = "easyui-textbox", @style = "height:100px", @data_options = "multiline:true" })</td></tr>
+        </table>
+    </form>
+</div>
