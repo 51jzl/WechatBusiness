@@ -70,7 +70,6 @@ function checkUserName() {
     }
 }
 function ajaxUserData() {
-    debugger;
     $.ajax({
         url: '/Home/Login',
         type: 'post',
