@@ -1,0 +1,65 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title></title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome-4.7.0/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="../../Content//css/registerStyle.css" />
+</head>
+<body>
+    <div class="register-main">
+        <div class="register-head">
+            <a href="" class="logo"><img src="" title="主页" /></a>
+            <div class="logo-title">欢迎注册</div>
+            <div class="hasAcount pull-right">
+                <span class="text-gray">已有账号？</span>
+                <a class="inviteToLogin" href="~/Views/Account/Login.cshtml">请登录</a>
+            </div>
+        </div>
+        <div class="register-body">
+            <div class="register-info">
+                <div class="stepOne">
+                    <p class="stepTitle">手机号注册</p>
+                    <div class="form-group no-margins">
+                        <div class="input-group m-t-md border-bottom" id="phoneNum">
+                            <div class="input-group-addon no-border bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                            <input class="form-control inputForm no-border" name="phoneNum" placeholder="输入密码" type="tel">
+                        </div>
+                        <p class="text-danger" id="phoneNum_error">用户名和密码不匹配！</p>
+                    </div>
+                    <div class="form-group no-margins">
+                        <div class="input-group m-t-md border-bottom" id="verification">
+                            <div class="input-group-addon no-border bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                            <input class="form-control inputForm no-border" name="verification" placeholder="输入右侧验证码" type="text">
+                            <img id="verifyPic" src="" />
+                            <span class="changeTheVerifyCode">换一换</span>
+                        </div>
+                        <p class="text-danger" id="verification_error">验证码不匹配！</p>
+                    </div>
+                    <button class="nextStepBtn btn btn-desktop-default btn-block inputForm m-t-md bg-blue"> 登录</button>
+                </div>
+                <div class="stepTwo">
+                    <p class="stepTitle">手机号验证</p>
+                    <div class="form-group no-margins">
+                        <div class="input-group m-t-md border-bottom" id="phoneNum">
+                            <div class="input-group-addon no-border bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                            <input class="form-control inputForm no-border" name="phoneNum" placeholder="输入密码" type="tel">
+                        </div>
+                        <p class="text-danger" id="phoneNum_error">用户名和密码不匹配！</p>
+                    </div>
+                </div>
+            </div>
+            <div class="register-advertisement"></div>
+        </div>
+    </div>
+</body>
+</html>
+

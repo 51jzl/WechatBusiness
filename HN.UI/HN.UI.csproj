@@ -132,6 +132,7 @@
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\css\base.css" />
+    <Content Include="Content\css\common.css" />
     <Content Include="Content\css\default.css" />
     <Content Include="Content\css\fonts\iconFont.svg" />
     <Content Include="Content\css\icons\doc\chm.gif" />
@@ -1661,6 +1662,7 @@
     <Content Include="Content\css\icons\icon\zoom_out.png" />
     <Content Include="Content\css\loginStyle.css" />
     <Content Include="Content\css\modern.css" />
+    <Content Include="Content\css\registerStyle.css" />
     <Content Include="Content\css\Site.css" />
     <Content Include="Content\css\themes\default\main.css" />
     <Content Include="Content\css\themes\gray\main.css" />
@@ -2131,6 +2133,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
+    <Content Include="Views\Home\Register.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
