@@ -8,16 +8,16 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title></title>
     <meta charset="utf-8" />
-    <link rel="stylesheet" type="text/css" href="../../Content/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome-4.7.0/css/font-awesome.css" />
-    <link rel="stylesheet" type="text/css" href="../../Content/font-awesome-4.7.0/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css/font-awesome.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/font-awesome/css//font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="~/Content/css/common.css" />
-    <link rel="stylesheet" type="text/css" href="../../Content//css/registerStyle.css" />
+    <link rel="stylesheet" type="text/css" href="~/Content/css/registerStyle.css" />
+    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
 </head>
 <body>
     <div class="register-main">
         <div class="register-head">
-            <a href="" class="logo"><img src="" title="主页" /></a>
             <div class="logo-title">欢迎注册</div>
             <div class="hasAcount pull-right">
                 <span class="text-gray">已有账号？</span>
@@ -26,40 +26,136 @@
         </div>
         <div class="register-body">
             <div class="register-info">
-                <div class="stepOne">
-                    <p class="stepTitle">手机号注册</p>
-                    <div class="form-group no-margins">
-                        <div class="input-group m-t-md border-bottom" id="phoneNum">
-                            <div class="input-group-addon no-border bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
-                            <input class="form-control inputForm no-border" name="phoneNum" placeholder="输入密码" type="tel">
+                <div class="register-zone">
+                    <div class="stepOne">
+                        <p class="stepTitle">手机号注册</p>
+                        <div class="form-group no-margins p-h-xs">
+                            <div class="input-group p-h-xs border-bottom" id="phoneNum">
+                                <div class="input-group-addon no-border bg-white"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></div>
+                                <input class="form-control inputForm no-border" name="phoneNum" placeholder="手机号" type="tel">
+                            </div>
+                            <p class="text-danger m-t-xs" id="error_phoneNum">请输入正确的手机号</p>
                         </div>
-                        <p class="text-danger" id="phoneNum_error">用户名和密码不匹配！</p>
+                        <div class="form-group no-margins p-h-xs">
+                            <div class="flexLayout">
+                                <div class="input-group border-bottom" id="verification">
+                                    <div class="input-group-addon no-border bg-white"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                    <input class="form-control inputForm no-border" name="verification" placeholder="输入下方验证码" type="text">
+                                </div>
+                            </div>
+                            <p class="text-danger m-t-xs" id="error_verification">验证码不匹配！</p>
+                        </div>
+                        <div class="form-group no-margins flexLayout p-h-xs border-bottom">
+                            <img id="verifyPic" src="~/Content/images/error_pic.png" />
+                            <img id="loadingPic" src="~/Content/images/loading_pic.gif" width="25px" height="25px" />
+                            <span class="changeTheVerifyCode clickFont" onclick="changeVerfyCode()">换一换</span>
+                        </div>
+                        <button class="nextStepBtn btn btn-desktop-default btn-block inputForm m-t-md bg-blue btn-lg">下一步</button>
                     </div>
-                    <div class="form-group no-margins">
-                        <div class="input-group m-t-md border-bottom" id="verification">
-                            <div class="input-group-addon no-border bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
-                            <input class="form-control inputForm no-border" name="verification" placeholder="输入右侧验证码" type="text">
-                            <img id="verifyPic" src="" />
-                            <span class="changeTheVerifyCode">换一换</span>
+                    <div class="stepTwo">
+                        <p class="stepTitle">手机号验证</p>
+                        <div class="form-group no-margins p-h-xs">
+                            <div class="input-group p-h-xs border-bottom border-top">
+                                <div class="input-group-addon no-border bg-white"><i class="fa fa-mobile fa-2x" aria-hidden="true"></i></div>
+                                <input class="form-control inputForm no-border" name="varifyPhoneNum" type="tel" readonly="readonly">
+                            </div>
                         </div>
-                        <p class="text-danger" id="verification_error">验证码不匹配！</p>
+                        <p class="clickFont p-h-xs no-margins" onclick="getMessageVerifyCode()">获取验证码</p>
+                        <div class="form-group no-margins p-h-xs">
+                            <div class="flexLayout">
+                                <div class="input-group border-bottom border-top no-wrap p-h-xs" id="phoneVerification">
+                                    <div class="input-group-addon no-border bg-white"><i class="fa fa-envelope" aria-hidden="true"></i></div>
+                                    <input class="form-control inputForm no-border" name="phoneVerification" placeholder="输入手机验证码" type="text">
+                                    <p class="regetVerifyCode clickFont no-margins" onclick="getMessageVerifyCode()">重新获取验证码</p>
+                                </div>
+                            </div>
+                            <p class="text-danger m-t-xs" id="error_register">验证码不匹配！</p>
+                        </div>
+                        <p class="p-h-xs no-margins">如果长时间未收到验证码，一分钟后可重新获取！</p>
+                        <button class="registSureBtn btn btn-desktop-default btn-block inputForm m-t-md bg-blue btn-lg" onclick="toLastStep()">确定</button>
                     </div>
-                    <button class="nextStepBtn btn btn-desktop-default btn-block inputForm m-t-md bg-blue"> 登录</button>
-                </div>
-                <div class="stepTwo">
-                    <p class="stepTitle">手机号验证</p>
-                    <div class="form-group no-margins">
-                        <div class="input-group m-t-md border-bottom" id="phoneNum">
-                            <div class="input-group-addon no-border bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
-                            <input class="form-control inputForm no-border" name="phoneNum" placeholder="输入密码" type="tel">
-                        </div>
-                        <p class="text-danger" id="phoneNum_error">用户名和密码不匹配！</p>
+                    <div class="stepThree" id="managerReg">
+                        <p class="stepTitle">系统设置</p>
+                        <form id="managerForm">
+                            <div class="form-group">
+                                <label for="varifyPhoneNum">账号：</label>
+                                <input type="number" class="form-control" name="varifyPhoneNum" readonly="readonly">
+                            </div>
+                            <div class="form-group">
+                                <label for="companyName">公司名称：</label>
+                                <input type="text" class="form-control" name="companyName" placeholder="输入公司名或者团队名">
+                            </div>
+                            <p class="help-block text-danger" id="error_companyName">公司名不能为空</p>
+                            <div class="form-group">
+                                <label for="password">密码：</label>
+                                <input type="password" name="password" class="form-control">
+                            </div>
+                            <p class="help-block text-danger" id="error_password">密码不能为空！</p>
+                            <div class="form-group">
+                                <label for="passwordSure">确认密码：</label>
+                                <input type="password" id="passwordSure" class="form-control">
+                            </div>
+                            <p class="help-block text-danger" id="error_passwordSure">前后密码不一致，请确认后提交</p>
+                            <button type="submit" id="submitForManager" class="btn btn-desktop-default btn-block inputForm m-t-md bg-blue btn-lg" onclick="return false">提交</button>
+                        </form>
+                    </div>
+                    <div class="stepThree" id="customerReg">
+                        <p class="stepTitle">申请代理</p>
+                        <form id="userAgentForm">
+                            <div class="form-group">
+                                <label for="varifyPhoneNum">账号：</label>
+                                <input type="number" class="form-control" name="varifyPhoneNum" readonly="readonly">
+                            </div>
+                            <div class="form-group">
+                                <label for="emailForRegis">邮箱：</label>
+                                <input type="email" class="form-control" name="emailForRegis">
+                            </div>
+                            <p id="error_emailForRegis" class="text-danger">邮箱必填！</p>
+                            <div class="form-group">
+                                <label for="personName">姓名：</label>
+                                <input type="text" class="form-control" name="personName" placeholder="输入您的个人姓名">
+                            </div>
+                            <p id="error_personName" class="text-danger">姓名必填！</p>
+                            <div class="form-group">
+                                <label for="idCard">身份证：</label>
+                                <input type="number" name="idCard" class="form-control">
+                            </div>
+                            <p id="error_idCard" class="text-danger">身份证格式错误！</p>
+                            <div class="form-group">
+                                <label for="wechat">微信号：</label>
+                                <input type="text" name="wechat" class="form-control">
+                            </div>
+                            <p id="error_wechat" class="text-danger">微信号必填！</p>
+                            <div class="form-group">
+                                <label for="cityLocation">所在城市：</label>
+                                <div class="flexLayout">
+                                    <select class="form-control" name="province" onchange="initTownOpitons()"></select>
+                                    <select class="form-control" name="town"></select>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="locationDetail">详细地址：</label>
+                                <input type="text" name="locationDetail" class="form-control">
+                            </div>
+                            <p id="error_locationDetail" class="text-danger">地址必填！</p>
+                            <div class="form-group">
+                                <label for="requestGrade">申请等级：</label>
+                                <select class="form-control" name="requestGrade">
+                                    <option>一级代理</option>
+                                    <option selected="selected">二级代理</option>
+                                    <option>三级代理</option>
+                                    <option>其他</option>
+                                </select>
+                            </div>
+                            <button type="submit" id="submitAgent" class="btn btn-desktop-default btn-block inputForm m-t-md bg-blue btn-lg" onclick="return false">确认提交</button>
+                        </form>
                     </div>
                 </div>
             </div>
             <div class="register-advertisement"></div>
         </div>
     </div>
+    <script type="text/javascript" src="~/Scripts/Project/login.js"></script>
 </body>
 </html>
 

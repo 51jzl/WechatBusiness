@@ -1,5 +1,9 @@
 ﻿
 var defaultEntrance = '';
+var phoneReg = /^1[3|5|7|8]\d{9}$/gi, emailReg = /^(\w)+(\.\w+)*@(\w)+((\.\w{2,3}){1,3})$/;
+var isIDCard1 = /^[1-9]\d{7}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}$/;
+var isIDCard2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}([0-9]|X)$/;
+var registeType = '';//判断进来的入口
 
 $(function () {
     loadErCode();
@@ -51,22 +55,184 @@ $("#picture-zone").click(function () {
 $("#loginBtn").click(function () {
     storeName();
     checkUserName();
-    return false;
 });
+$(".nextStepBtn").click(function () {//下一步按钮
+    registeType = window.location.search.split("=")[1];
+    if (checkPhoneNum() && checkVerifyCode()) {
+        $("input[name=varifyPhoneNum]").val($("input[name=phoneNum]").val());
+        $(".stepTwo").animate({ "right": "0" }, 300);
+    } 
+})
+$("#submitForManager").click(function () {
+    var manageSure = true;
+    if ($("#passwordSure").val() != $("input[name=password]").val()) {
+        manageSure = false;
+        catchError("passwordSure");
+    } else {
+        catchSuccess("passwordSure");
+    }
+    if (checkInputValue("companyName") && checkInputValue("password") && manageSure) {
+        $.ajax({
+            url: "manageUrl",//管理端接口
+            data: $("#managerForm").serialize(),
+            success: function () {
+
+            },
+            error: function () {
+
+            }
+        })
+    }
+})
+$("#submitAgent").click(function () {//申请代理确认
+    var ifsure = true;
+    if(isIDCard1.test($("input[name=idCard]").val()) || isIDCard2.test($("input[name=idCard]").val())){
+        catchSuccess("idCard");
+    }else{
+        ifsure = true;
+        catchError("idCard");
+    }
+    if (emailReg.test($("input[name=emailForRegis]").val()) == false) {
+        $("#error_emailForRegis").text("邮箱格式错误，请重新输入！");
+        catchError("emailForRegis");
+        ifsure = false;
+    } else {
+        catchSuccess("emailForRegis")
+    }
+    if (checkInputValue("personName") && checkInputValue("wechat") && checkInputValue("locationDetail")) {
+        $.ajax({
+            url: "userRequestAgentUrl",//申请代理接口
+            data: $("#userAgentForm").serialize(),
+            success: function () {
+
+            },
+            error: function () {
+
+            }
+        })
+    }
+});
+function checkInputValue(elem) {
+    console.log($("input[name=" + elem + "]"))
+    if ($("input[name=" + elem + "]").val() == '') {
+        catchError(elem);
+        return false;
+    } else {
+        catchSuccess(elem);
+        return true;
+    }
+}
+function changeVerfyCode() {//图片验证码接口
+    $("#loadingPic").show();
+    $.ajax({
+        url: "verfyCodeurl",
+        success: function () {
+            $("#loadingPic").hide();
+            //刷新验证码模块图片
+            $("#verifyPic").attr("src", "//返回来的验证码url");
+        },
+        error: function () {
+            $("#loadingPic").hide();
+            $("#verifyPic").attr("src", "../Content/images/error_pic.png");
+        }
+    })
+}
+function getMessageVerifyCode() {//短信验证码接口
+    if ($(".regetVerifyCode").text() == "重新获取验证码") {
+        countNextTime();
+        $.ajax({
+            url: 'messageVeirfyCodeurl',
+            success: function () {
+
+            },
+            error: function () {
+
+            }
+        })
+    } else {
+        $("#error_register").show();
+        $("#error_register").text("请不要频繁操作！")
+    }
+    
+}
+function countNextTime() {
+    var millisec = 60;
+    var time = setInterval(function () {
+        if (millisec <= 0) {
+            $(".regetVerifyCode ").text("重新获取验证码");
+            window.clearInterval(time);
+        } else {
+            $(".regetVerifyCode ").text(millisec-- + "s 后重新获取");
+        }
+    }, 1000)
+    
+}
+function toLastStep() {
+    //判断手机验证码是否有误
+
+    //判断当前url根据url链接到最后一步
+    $("#" + registeType).animate({ "right": "0px" }, 300);
+    if (registeType == "customerReg") {
+        $.ajax({
+            url: "http://restapi.amap.com/v3/config/district?key=5fb18b633709700091f158f6dc49d239",
+            success: function (data) {
+                var provinceData = data.districts[0].districts;
+                $("select[name=province]").empty();
+                $.each(provinceData, function (index,value) {
+                    $("select[name=province]").append("<option value=" + value.name + ">" + value.name + "</option>")
+                });
+                
+            },
+            error: function () {
+                alert("error");
+            }
+        })
+        initTownOpitons();
+    }
+}
+function initTownOpitons() {
+    var val = $("select[name=province]").val();
+    $.ajax({
+        url: "http://restapi.amap.com/v3/config/district?key=5fb18b633709700091f158f6dc49d239&keywords=" + val,
+        async: true,
+        success: function (data) {
+            var provinceData = data.districts[0].districts;
+            $("select[name=town]").empty();
+            $.each(provinceData, function (index, value) {
+                $("select[name=town]").append("<option value=" + value.name + ">" + value.name + "</option>")
+            });
+        }
+    })
+}
+function checkPhoneNum() {
+    //手机号码格式是否正确
+    var phoneValue = $("input[name=phoneNum]").val();
+    if (phoneReg.test(phoneValue)) {
+        catchSuccess("phoneNum");
+        return true;
+    } else {
+        catchError("phoneNum");
+        return false;
+    }
+}
+function checkVerifyCode() {
+    //验证码格式是否正确
+    return true;
+}
+function catchError(elem){
+    $("#error_"+elem).show();
+}
+function catchSuccess(elem){
+    $("#error_"+elem).hide();
+}
 function checkUserName() {
-    var phoneReg = /^1[3|5|7|8]\d{9}$/gi, emailReg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
-    //var passWordReg = /^(?=.*?[a-zA-Z])(?=.*?[0-9])[a-zA-Z0-9]{6,16}$/;
     var value = $("input[name=loginName]").val(), password = $("input[name=pwd]").val();
     if (phoneReg.test(value) || emailReg.test(value)) {
-        $("#passWord_error").hide();
+        catchSuccess("passWord")
         ajaxUserData();
-        //if (passWordReg.test(password)) {
-        //} else {
-        //    $("#passWord_error").show();
-        //}
     } else {
         //用户名出错
-        $("#userName_error").show();
+        catchError("userName");
     }
 }
 function ajaxUserData() {
