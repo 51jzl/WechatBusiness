@@ -1,0 +1,97 @@
+﻿.register-main {
+    width:100%;
+    height:100%;
+}
+.register-head{
+    height:100px;
+    width:100%;
+    line-height:100px;
+    align-items:center;
+    border-bottom:1px solid #ccc;
+    -moz-box-shadow:inset 0 5px 5px #ccc;
+    -webkit-box-shadow:inset 0 -5px 5px #ccc;
+    -webkit-box-shadow:inset 0 -5px 5px #ccc;
+}
+.logo-title {
+    display:inline-block;
+    font-size:24px;
+    margin-left:190px;
+}
+.inviteToLogin{
+    margin-right:40px;
+}
+.register-body {
+    width:1200px;
+    height:auto;
+    padding-top:20px;
+}
+.register-info {
+    width:60%;
+    height:450px;
+    border-right:1px solid #ccc;
+    float:left;
+    overflow-x:hidden;
+    position:relative;
+}
+.register-zone{
+    width:350px;
+    height:100%;
+    margin:0 auto;
+    overflow:hidden;
+    position:relative;
+}
+.register-advertisement {
+    width:40%;
+    float:left;
+}
+#verifyPic {
+    width:240px;
+    height:100px;
+}
+.stepTitle{
+    font-size: 20px;
+    text-align: center;
+    color: #5a42d6;
+}
+.regetVerifyCode{
+    padding:5px;
+    color:black !important;
+    background-color:#e8e0e0;
+    display:inline-block;
+    width:auto;
+    height:auto;
+}
+input[name=phoneVerification]{
+    width:140px !important;
+}
+.stepOne{
+    width:350px;
+    height:450px;
+}
+.stepTwo {
+    width:350px;
+    height:450px;
+    position:absolute;
+    top:0;
+    right:-350px;
+    z-index:2;
+    background-color:#fff;
+}
+#loadingPic{
+    display:none;
+}
+.stepThree{
+    width:350px;
+    position:absolute;
+    top:0;
+    right:-350px;
+    z-index:3;
+    height:450px;
+    background-color:#fff;
+    overflow-y:auto;
+}
+select{
+    width:48%!important;
+    display:inline-block;
+}
+::-webkit-scrollbar{width:0px;height:0px}
