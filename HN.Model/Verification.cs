@@ -15,7 +15,7 @@ namespace HN.Model
         /// <summary>
         /// 类型
         /// </summary>
-        public int Type { get; set; }
+        public VerificationType Type { get; set; }
 
         /// <summary>
         /// 手机号码|email
@@ -36,7 +36,7 @@ namespace HN.Model
     /// <summary>
     /// 短信验证接收类型
     /// </summary>
-    public enum SmsVerificationType {
+    public enum VerificationType {
         /// <summary>
         /// 手机
         /// </summary>

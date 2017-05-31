@@ -166,17 +166,13 @@ namespace HN.UI.Controllers
         /// 获取验证码
         /// </summary>
         /// <returns></returns>
-        public JsonResult GetVerifyCode()
+        [HttpPost]
+        public JsonResult GetVerifyCode(string code)
         {
-            MessageJSON mj = new MessageJSON();
+            MessageJSON mj = new MessageJSON(MessageState.fail, "验证码错误");
             if (Session["verifyCode"] != null)
-            {
-                mj = new MessageJSON(MessageState.fail, "获取验证码失败");
-            }
-            else
-            {
-                mj = new MessageJSON(MessageState.success, Session["verifyCode"].ToString().ToLower());
-            }
+                if (Session["verifyCode"].ToString().ToLower() == code.ToLower())
+                    mj = new MessageJSON(MessageState.success, "验证码通过", MessageIcon.yes);
             return Json(mj, JsonRequestBehavior.AllowGet);
         }
 
