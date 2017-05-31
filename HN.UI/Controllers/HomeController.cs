@@ -161,5 +161,24 @@ namespace HN.UI.Controllers
         }
         #endregion
 
+
+        /// <summary>
+        /// 获取验证码
+        /// </summary>
+        /// <returns></returns>
+        public JsonResult GetVerifyCode()
+        {
+            MessageJSON mj = new MessageJSON();
+            if (Session["verifyCode"] != null)
+            {
+                mj = new MessageJSON(MessageState.fail, "获取验证码失败");
+            }
+            else
+            {
+                mj = new MessageJSON(MessageState.success, Session["verifyCode"].ToString().ToLower());
+            }
+            return Json(mj, JsonRequestBehavior.AllowGet);
+        }
+
     }
 }

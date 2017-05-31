@@ -61,7 +61,7 @@ $(".nextStepBtn").click(function () {//下一步按钮
     if (checkPhoneNum() && checkVerifyCode()) {
         $("input[name=varifyPhoneNum]").val($("input[name=phoneNum]").val());
         $(".stepTwo").animate({ "right": "0" }, 300);
-    } 
+    }
 })
 $("#submitForManager").click(function () {
     var manageSure = true;
@@ -86,9 +86,9 @@ $("#submitForManager").click(function () {
 })
 $("#submitAgent").click(function () {//申请代理确认
     var ifsure = true;
-    if(isIDCard1.test($("input[name=idCard]").val()) || isIDCard2.test($("input[name=idCard]").val())){
+    if (isIDCard1.test($("input[name=idCard]").val()) || isIDCard2.test($("input[name=idCard]").val())) {
         catchSuccess("idCard");
-    }else{
+    } else {
         ifsure = true;
         catchError("idCard");
     }
@@ -123,19 +123,7 @@ function checkInputValue(elem) {
     }
 }
 function changeVerfyCode() {//图片验证码接口
-    $("#loadingPic").show();
-    $.ajax({
-        url: "verfyCodeurl",
-        success: function () {
-            $("#loadingPic").hide();
-            //刷新验证码模块图片
-            $("#verifyPic").attr("src", "//返回来的验证码url");
-        },
-        error: function () {
-            $("#loadingPic").hide();
-            $("#verifyPic").attr("src", "../Content/images/error_pic.png");
-        }
-    })
+    $("#verifyPic").attr("src", "/Home/VerifyCode?time=" + Math.random());
 }
 function getMessageVerifyCode() {//短信验证码接口
     if ($(".regetVerifyCode").text() == "重新获取验证码") {
@@ -153,7 +141,7 @@ function getMessageVerifyCode() {//短信验证码接口
         $("#error_register").show();
         $("#error_register").text("请不要频繁操作！")
     }
-    
+
 }
 function countNextTime() {
     var millisec = 60;
@@ -165,7 +153,7 @@ function countNextTime() {
             $(".regetVerifyCode ").text(millisec-- + "s 后重新获取");
         }
     }, 1000)
-    
+
 }
 function toLastStep() {
     //判断手机验证码是否有误
@@ -178,10 +166,10 @@ function toLastStep() {
             success: function (data) {
                 var provinceData = data.districts[0].districts;
                 $("select[name=province]").empty();
-                $.each(provinceData, function (index,value) {
+                $.each(provinceData, function (index, value) {
                     $("select[name=province]").append("<option value=" + value.name + ">" + value.name + "</option>")
                 });
-                
+
             },
             error: function () {
                 alert("error");
@@ -216,14 +204,15 @@ function checkPhoneNum() {
     }
 }
 function checkVerifyCode() {
+    //验证码地址 /Home/GetVerifyCode
     //验证码格式是否正确
     return true;
 }
-function catchError(elem){
-    $("#error_"+elem).show();
+function catchError(elem) {
+    $("#error_" + elem).show();
 }
-function catchSuccess(elem){
-    $("#error_"+elem).hide();
+function catchSuccess(elem) {
+    $("#error_" + elem).hide();
 }
 function checkUserName() {
     var value = $("input[name=loginName]").val(), password = $("input[name=pwd]").val();

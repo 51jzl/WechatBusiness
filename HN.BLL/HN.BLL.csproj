@@ -66,6 +66,7 @@
     <Compile Include="Users.cs" />
     <Compile Include="UsersOrganize.cs" />
     <Compile Include="UsersRole.cs" />
+    <Compile Include="Verification.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\HN.DAL\HN.DAL.csproj">

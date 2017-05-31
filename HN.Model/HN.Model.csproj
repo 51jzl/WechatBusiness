@@ -53,6 +53,7 @@
     <Compile Include="RoleModuleInfo.cs" />
     <Compile Include="RolesInfo.cs" />
     <Compile Include="SessionInfo.cs" />
+    <Compile Include="Verification.cs" />
     <Compile Include="UsersInfo.cs" />
     <Compile Include="UsersOrganizeInfo.cs" />
     <Compile Include="UsersRoleInfo.cs" />

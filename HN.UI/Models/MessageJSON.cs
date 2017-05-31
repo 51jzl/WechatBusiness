@@ -6,6 +6,22 @@
     public class MessageJSON
     {
         /// <summary>
+        /// 构造器
+        /// </summary>
+        public MessageJSON() {
+        }
+
+        /// <summary>
+        /// 构造器
+        /// </summary>
+        public MessageJSON(MessageState state,string content, MessageIcon? icon=null) {
+            this.State = state;
+            this.Content = content;
+            this.Icon = icon;
+        }
+
+
+        /// <summary>
         /// 详细状态
         /// </summary>
         public MessageState State { get; set; }
@@ -18,7 +34,7 @@
         /// <summary>
         /// 图标
         /// </summary>
-        public MessageIcon Icon { get; set; }
+        public MessageIcon? Icon { get; set; }
     }
 
     /// <summary>
