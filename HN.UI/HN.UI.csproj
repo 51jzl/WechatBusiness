@@ -112,12 +112,14 @@
     <Compile Include="App_Start\GlobalFilter.cs" />
     <Compile Include="App_Start\ResponseExtend.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\AgentController.cs" />
     <Compile Include="Controllers\ButtonController.cs" />
     <Compile Include="Controllers\DictController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginLogController.cs" />
     <Compile Include="Controllers\ModuleController.cs" />
     <Compile Include="Controllers\OrganizatController.cs" />
+    <Compile Include="Controllers\ProjectController.cs" />
     <Compile Include="Controllers\RolesController.cs" />
     <Compile Include="Controllers\UsersController.cs" />
     <Compile Include="Global.asax.cs">
@@ -2135,6 +2137,9 @@
   <ItemGroup>
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Account\Register.cshtml" />
+    <Content Include="Views\Project\Create.cshtml" />
+    <Content Include="Views\Agent\CreateLevel.cshtml" />
+    <Content Include="Views\Agent\Detail.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
