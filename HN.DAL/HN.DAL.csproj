@@ -45,7 +45,6 @@
     <Compile Include="DictKey.cs" />
     <Compile Include="DictValue.cs" />
     <Compile Include="LoginLog.cs" />
-    <Compile Include="Models\PetaPoco.cs" />
     <Compile Include="Module.cs" />
     <Compile Include="ModuleButton.cs" />
     <Compile Include="RoleModButton.cs" />
@@ -69,9 +68,6 @@
       <Project>{c35e34d2-00b8-465b-8ebe-88b996e2847b}</Project>
       <Name>HN.Utility</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

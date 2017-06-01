@@ -1,10 +1,14 @@
-﻿using System;
+﻿using PetaPoco;
+using System;
+
 
 namespace HN.Model
 {
     /// <summary>
     /// 验证
     /// </summary>
+    [TableName("tn_Verification")]
+    [PrimaryKey("ID", AutoIncrement = true)]
     public class Verification
     {
         /// <summary>
@@ -32,18 +36,19 @@ namespace HN.Model
         /// </summary>
         public DateTime DateCreated { get; set; }
     }
-    
+
     /// <summary>
     /// 短信验证接收类型
     /// </summary>
-    public enum VerificationType {
+    public enum VerificationType
+    {
         /// <summary>
         /// 手机
         /// </summary>
-        Phone=0,
+        Phone = 0,
         /// <summary>
         /// 邮箱
         /// </summary>
-        Email=1
+        Email = 1
     }
 }

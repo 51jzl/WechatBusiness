@@ -266,5 +266,78 @@ namespace HN.BLL
         }
         #endregion
 
+        #region 扩展用户操作
+
+        /// <summary>
+        /// 添加/编辑用户
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="orgID">组织ID</param>
+        /// <returns></returns>
+        public string Create(UsersInfo model, int? orgID)
+        {
+            model.UserCode = string.Format("{0}{1}", DateTime.Now.ToString("yyyyMMddHHmmss"), Tools.GetUniqueKey());
+            string strReturn = string.Empty;
+            Transaction transaction = new Transaction();
+            object tran = transaction.CreatTransaction();
+            try
+            {
+                if (model.DimissionDate.ToString() == "0001/1/1 0:00:00")
+                {
+                    model.DimissionDate = null;
+                }
+                if (model.UserID == 0)//添加
+                {
+                    //判断登录名是否重复
+                    if (ExistsLoginName(tran, model.LoginName))
+                    {
+                        throw new Exception("登录名[" + model.LoginName + "]已存在，请重新输入！");
+                    }
+
+                    model.Pwd = Utility.DESEncrypt.GetMd5Str("123456");//添加时默认密码
+                    model.CreateID = 0;
+                    model.CreateName = "系统";
+                    model.FirstPY = new CharPY().GetFirstPY(model.UserName);  //拼音码
+                    model.CreateDate = DateTime.Now;
+                    if (!Add(tran, model))
+                    {
+                        throw new Exception(ErrorPrompt.AddError);
+                    }
+                    model.UserID = new Tools().GetCurrentID(tran);
+                }
+                #region 添加用户所属组织
+                //判断是否存在 存在则先删除
+                if (new UsersOrganize().ExistsByUserID(tran, model.UserID))
+                {
+                    if (!new UsersOrganize().DeleteByUserID(tran, model.UserID))
+                    {
+                        throw new Exception("删除用户所在组织出错！");
+                    }
+                }
+                #endregion
+
+                if (orgID != null && orgID > 0)
+                {
+                    if (!new UsersOrganize().Add(tran, new UsersOrganizeInfo() { UserID = model.UserID, OrgID = orgID.Value }))
+                    {
+                        throw new Exception("添加用户所在组织出错！");
+                    }
+                }
+                transaction.Commit(tran);
+            }
+            catch (Exception ex)
+            {
+                transaction.Rollback(tran);
+                strReturn = new Tools().GetErrorInfo(ex);
+            }
+
+            return strReturn;
+        }
+
+
+
+
+        #endregion
+
     }
 }

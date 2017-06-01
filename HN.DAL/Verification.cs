@@ -6,7 +6,7 @@ namespace HN.DAL
 {
     public class Verification
     {
-        Database db = new Database();
+        Database db = new Database("connstr");
 
         /// <summary>
         /// 根据条件查询
@@ -19,8 +19,8 @@ namespace HN.DAL
             Sql sql = new Sql("SELECT * FROM tn_Verification");
             Sql whereSql = new Sql();
             Sql orderSql = new Sql();
-            whereSql.Where("Type=@0", type);
-            whereSql.Where("To=@0", to);
+            whereSql.Where("[Type]=@0", type);
+            whereSql.Where("[To]=@0", to);
             whereSql.Where("DATEDIFF(MINUTE,DateCreated,GETDATE())<3");
             orderSql.OrderBy("DateCreated desc");
             sql.Append(whereSql).Append(orderSql);

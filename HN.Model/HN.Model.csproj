@@ -31,6 +31,7 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
@@ -45,6 +46,7 @@
     <Compile Include="DictKeyInfo.cs" />
     <Compile Include="DictValueInfo.cs" />
     <Compile Include="LoginLogInfo.cs" />
+    <Compile Include="Models\PetaPoco.cs" />
     <Compile Include="ModuleButtonInfo.cs" />
     <Compile Include="ModuleInfo.cs" />
     <Compile Include="RoleModButtonInfo.cs" />
@@ -57,6 +59,12 @@
     <Compile Include="UsersInfo.cs" />
     <Compile Include="UsersOrganizeInfo.cs" />
     <Compile Include="UsersRoleInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
