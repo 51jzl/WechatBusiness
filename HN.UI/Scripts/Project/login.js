@@ -6,23 +6,8 @@ var isIDCard2 = /^[1-9]\d{5}[1-9]\d{3}((0\d)|(1[0-2]))(([0|1|2]\d)|3[0-1])\d{3}(
 var registeType = '';//判断进来的入口
 
 $(function () {
-    loadErCode();
     showPage();
 })
-
-function loadErCode() {
-    $.ajax(
-        {
-            url: 'erCode',
-            data: {},
-            success: function (data) {
-
-            },
-            error: function () {
-
-            }
-        })
-}
 function showPage() {
     if (defaultEntrance == 'erCode') {
         $(".erCodeLogin").show();
@@ -61,6 +46,8 @@ $(".nextStepBtn").click(function () {//下一步按钮
     if (checkPhoneNum() && checkVerifyCode()) {
         $("input[name=varifyPhoneNum]").val($("input[name=phoneNum]").val());
         $(".stepTwo").animate({ "right": "0" }, 300);
+    } else {
+        catchError("verification")
     }
 })
 $("#submitForManager").click(function () {
@@ -73,10 +60,19 @@ $("#submitForManager").click(function () {
     }
     if (checkInputValue("companyName") && checkInputValue("password") && manageSure) {
         $.ajax({
-            url: "manageUrl",//管理端接口
-            data: $("#managerForm").serialize(),
-            success: function () {
-
+            url: "/Account/Register",//管理端接口
+            type:"POST",
+            data: {
+                "LoginName": $("input[name=varifyPhoneNum]").val(),
+                "Pwd": $("input[name=password]").val(),
+                "UserName": $("input[name=companyName]").val()
+            },
+            success: function (data) {
+                if (data.State == 1) {
+                    alert("注册成功！");
+                } else {
+                    alert("注册失败！")
+                }
             },
             error: function () {
 
@@ -129,12 +125,14 @@ function getMessageVerifyCode() {//短信验证码接口
     if ($(".regetVerifyCode").text() == "重新获取验证码") {
         countNextTime();
         $.ajax({
-            url: 'messageVeirfyCodeurl',
-            success: function () {
-
+            url: '/Verification/GetPhoneCode',
+            type: "GET",
+            data: { "mobile": $("input[name=varifyPhoneNum]").val() },
+            success: function (data) {
+                
             },
             error: function () {
-
+                alert("出错啦！请检查网络设置！")
             }
         })
     } else {
@@ -157,7 +155,28 @@ function countNextTime() {
 }
 function toLastStep() {
     //判断手机验证码是否有误
-
+    $.ajax({
+        url: "/Verification/JudgePhoneCode",
+        type: "POST",
+        data: {
+            'mobile': $("input[name=varifyPhoneNum]").val(),
+            'code': $("input[name=phoneVerification]").val()
+        },
+        success: function (data) {
+            if (data.State == 1) {
+                catchSuccess("register");
+                doTheLastStep();
+            } else {
+                catchError("register");
+                doTheLastStep();
+            }
+        },
+        error: function () {
+            catchError("register");
+        }
+    })
+}
+function doTheLastStep() {
     //判断当前url根据url链接到最后一步
     $("#" + registeType).animate({ "right": "0px" }, 300);
     if (registeType == "customerReg") {
@@ -204,9 +223,29 @@ function checkPhoneNum() {
     }
 }
 function checkVerifyCode() {
-    //验证码地址 /Home/GetVerifyCode
+    var status = false;
+    //验证码地址 /Verification/AuthorizationVerifyCode
+    $.ajax({
+        url: "/Verification/AuthorizationVerifyCode",
+        type: "post",
+        async:false,
+        data: { "code": $("input[name=verification]").val() },
+        success: function (data) {
+            if (data.State == 1) {
+                catchSuccess("verification");
+                status = true;
+            } else {
+                catchError("verification")
+                status = false;
+            }
+        },
+        error: function () {
+            catchError("verification");
+            status = false;
+        }
+    })
     //验证码格式是否正确
-    return true;
+    return status;
 }
 function catchError(elem) {
     $("#error_" + elem).show();

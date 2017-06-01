@@ -133,6 +133,54 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Content Include="bin\HN.BLL.dll" />
+    <Content Include="bin\HN.BLL.pdb" />
+    <Content Include="bin\HN.DAL.dll" />
+    <Content Include="bin\HN.DAL.pdb" />
+    <Content Include="bin\HN.Model.dll" />
+    <Content Include="bin\HN.Model.pdb" />
+    <Content Include="bin\HN.UI.dll" />
+    <Content Include="bin\HN.UI.pdb" />
+    <Content Include="bin\HN.Utility.dll" />
+    <Content Include="bin\HN.Utility.pdb" />
+    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
+    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
+    <Content Include="bin\Newtonsoft.Json.dll" />
+    <Content Include="bin\Newtonsoft.Json.xml" />
+    <Content Include="bin\NPOI.dll" />
+    <Content Include="bin\System.Net.Http.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.dll" />
+    <Content Include="bin\System.Net.Http.Formatting.xml" />
+    <Content Include="bin\System.Net.Http.WebRequest.dll" />
+    <Content Include="bin\System.Net.Http.WebRequest.xml" />
+    <Content Include="bin\System.Net.Http.xml" />
+    <Content Include="bin\System.Web.Helpers.dll" />
+    <Content Include="bin\System.Web.Helpers.xml" />
+    <Content Include="bin\System.Web.Http.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.dll" />
+    <Content Include="bin\System.Web.Http.WebHost.xml" />
+    <Content Include="bin\System.Web.Http.xml" />
+    <Content Include="bin\System.Web.Mvc.dll" />
+    <Content Include="bin\System.Web.Mvc.xml" />
+    <Content Include="bin\System.Web.Razor.dll" />
+    <Content Include="bin\System.Web.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
+    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
+    <Content Include="bin\System.Web.WebPages.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.dll" />
+    <Content Include="bin\System.Web.WebPages.Razor.xml" />
+    <Content Include="bin\System.Web.WebPages.xml" />
+    <Content Include="bin\zh-Hans\System.Net.Http.Formatting.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Net.Http.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Net.Http.WebRequest.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Helpers.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Http.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Http.WebHost.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Mvc.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.Razor.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.WebPages.Razor.resources.dll" />
+    <Content Include="bin\zh-Hans\System.Web.WebPages.resources.dll" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\css\base.css" />
@@ -1990,6 +2038,9 @@
     <Content Include="Content\Lib\NPOI.OpenXml4Net.dll" />
     <Content Include="Content\Lib\NPOI.OpenXmlFormats.dll" />
     <Content Include="Global.asax" />
+    <Content Include="obj\Debug\HN.UI.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\HN.UI.dll" />
+    <Content Include="obj\Debug\HN.UI.pdb" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\Page\Common.js" />
     <Content Include="Scripts\Page\Default.js" />
@@ -2006,10 +2057,17 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
+    <Content Include="文档\EasyUI使用帮助.txt" />
+    <Content Include="文档\jQuery EasyUI 1.5.1 版 API 中文版 .exe" />
+    <Content Include="文档\代码规范.txt" />
+    <Content Include="文档\创建数据库脚本.sql" />
+    <Content Include="文档\初始化数据脚本.sql" />
+    <Content Include="文档\动软三层模板\Maticsoft.Engine.dll" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="文档\动软三层模板\" />
+    <Folder Include="obj\Debug\TempPE\" />
+    <Folder Include="obj\Release\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -2136,11 +2194,23 @@
     <Content Include="Content\font-awesome\scss\_variables.scss" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\HN.UI.csprojResolveAssemblyReference.cache" />
+    <Content Include="obj\Release\build.force" />
+    <Content Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="bin\HN.UI.dll.config" />
     <None Include="Properties\PublishProfiles\FolderProfile.pubxml" />
     <Content Include="Views\Account\Register.cshtml" />
     <Content Include="Views\Project\Create.cshtml" />
     <Content Include="Views\Agent\CreateLevel.cshtml" />
     <Content Include="Views\Agent\Detail.cshtml" />
+    <Content Include="文档\动软三层模板\BLL.cmt" />
+    <Content Include="文档\动软三层模板\Controller.cmt" />
+    <Content Include="文档\动软三层模板\DAL.cmt" />
+    <Content Include="文档\动软三层模板\Edit.cmt" />
+    <Content Include="文档\动软三层模板\Index.cmt" />
+    <Content Include="文档\动软三层模板\Model.cmt" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
