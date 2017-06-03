@@ -2577,6 +2577,7 @@
     <Content Include="文档\动软三层模板\Edit.cmt" />
     <Content Include="文档\动软三层模板\Index.cmt" />
     <Content Include="文档\动软三层模板\Model.cmt" />
+    <Content Include="Views\Shared\_nLayout.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
