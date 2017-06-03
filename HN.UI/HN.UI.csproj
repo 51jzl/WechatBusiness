@@ -133,54 +133,6 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
-    <Content Include="bin\HN.BLL.dll" />
-    <Content Include="bin\HN.BLL.pdb" />
-    <Content Include="bin\HN.DAL.dll" />
-    <Content Include="bin\HN.DAL.pdb" />
-    <Content Include="bin\HN.Model.dll" />
-    <Content Include="bin\HN.Model.pdb" />
-    <Content Include="bin\HN.UI.dll" />
-    <Content Include="bin\HN.UI.pdb" />
-    <Content Include="bin\HN.Utility.dll" />
-    <Content Include="bin\HN.Utility.pdb" />
-    <Content Include="bin\ICSharpCode.SharpZipLib.dll" />
-    <Content Include="bin\Microsoft.Web.Infrastructure.dll" />
-    <Content Include="bin\Newtonsoft.Json.dll" />
-    <Content Include="bin\Newtonsoft.Json.xml" />
-    <Content Include="bin\NPOI.dll" />
-    <Content Include="bin\System.Net.Http.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.dll" />
-    <Content Include="bin\System.Net.Http.Formatting.xml" />
-    <Content Include="bin\System.Net.Http.WebRequest.dll" />
-    <Content Include="bin\System.Net.Http.WebRequest.xml" />
-    <Content Include="bin\System.Net.Http.xml" />
-    <Content Include="bin\System.Web.Helpers.dll" />
-    <Content Include="bin\System.Web.Helpers.xml" />
-    <Content Include="bin\System.Web.Http.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.dll" />
-    <Content Include="bin\System.Web.Http.WebHost.xml" />
-    <Content Include="bin\System.Web.Http.xml" />
-    <Content Include="bin\System.Web.Mvc.dll" />
-    <Content Include="bin\System.Web.Mvc.xml" />
-    <Content Include="bin\System.Web.Razor.dll" />
-    <Content Include="bin\System.Web.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.Deployment.dll" />
-    <Content Include="bin\System.Web.WebPages.Deployment.xml" />
-    <Content Include="bin\System.Web.WebPages.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.dll" />
-    <Content Include="bin\System.Web.WebPages.Razor.xml" />
-    <Content Include="bin\System.Web.WebPages.xml" />
-    <Content Include="bin\zh-Hans\System.Net.Http.Formatting.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Net.Http.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Net.Http.WebRequest.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.Helpers.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.Http.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.Http.WebHost.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.Mvc.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.Razor.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.WebPages.Deployment.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.WebPages.Razor.resources.dll" />
-    <Content Include="bin\zh-Hans\System.Web.WebPages.resources.dll" />
     <Content Include="Content\bootstrap\bootstrap.css" />
     <Content Include="Content\bootstrap\bootstrap.min.css" />
     <Content Include="Content\css\animate.css" />
@@ -2398,9 +2350,6 @@
     <Content Include="Content\Lib\NPOI.OpenXmlFormats.dll" />
     <Content Include="Global.asax" />
     <Content Include="Log\Error\e20170601.txt" />
-    <Content Include="obj\Debug\HN.UI.csproj.FileListAbsolute.txt" />
-    <Content Include="obj\Debug\HN.UI.dll" />
-    <Content Include="obj\Debug\HN.UI.pdb" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
     <Content Include="Scripts\Page\Common.js" />
     <Content Include="Scripts\Page\Default.js" />
@@ -2426,8 +2375,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="obj\Release\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
@@ -2554,12 +2501,6 @@
     <Content Include="Content\font-awesome\scss\_variables.scss" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
-    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="obj\Debug\HN.UI.csprojResolveAssemblyReference.cache" />
-    <Content Include="obj\Release\build.force" />
-    <Content Include="obj\Release\DesignTimeResolveAssemblyReferencesInput.cache" />
-    <Content Include="bin\HN.UI.dll.config" />
     <Content Include="Content\js\api\typehead_collection.json" />
     <Content Include="Content\js\plugins\chartist\chartist.min.js.map" />
     <Content Include="Content\js\plugins\d3\LICENSE" />
