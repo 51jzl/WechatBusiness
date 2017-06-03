@@ -69,9 +69,9 @@ $("#submitForManager").click(function () {
             },
             success: function (data) {
                 if (data.State == 1) {
-                    alert("注册成功！");
+                    alert(data.Content);
                 } else {
-                    alert("注册失败！")
+                    alert(data.Content)
                 }
             },
             error: function () {
