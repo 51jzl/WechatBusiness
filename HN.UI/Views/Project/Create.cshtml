@@ -3,4 +3,45 @@
     ViewBag.Title = "Create";
 }
 
-<h2>创建项目</h2>
+<div class="row wrapper border-bottom white-bg page-heading no-margins">
+    <div class="">
+        <h2>Project detail</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+            </li>
+            <li class="active">
+                <strong>Project detail</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="p-xs m-t-xs bg-white">
+    <div class="row no-margins">
+        <div class="inlineBlock">
+            <input type="text" class="form-control inlineBlock" name="searchContent" />
+            <input type="button" class="btn btn-default" value="搜索" />
+        </div>
+        <button type="button" class="btn btn-default pull-right" onclick="openDialog('新增产品','/Views/Project/projectDialog.cshtml')">新增项目</button>
+    </div> 
+</div>
+<table class="table m-t-xs bg-white">
+    <thead>
+        <tr>
+            <th>项目ID</th>
+            <th>项目名称</th>
+            <th>所属公司</th>
+            <th>是否启用</th>
+            <th>功能</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>10039</td>
+            <td>波利鱼趣</td>
+            <td>薄利有限公司</td>
+            <td>是</td>
+            <td><i class="fa fa-pencil-square-o" aria-hidden="true"></i></td>
+        </tr>
+    </tbody>
+</table>
