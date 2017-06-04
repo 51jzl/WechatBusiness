@@ -12,9 +12,14 @@ namespace HN.UI.Controllers
         /// 创建项目
         /// </summary>
         /// <returns></returns>
-        public ActionResult Create() {
+        public ActionResult Create()
+        {
             return View();
         }
 
+        public ActionResult projectDialog()
+        {
+            return View();
+        }
     }
 }
