@@ -113,3 +113,6 @@ input:focus{
 .dialogContent .fa-times{
     cursor:pointer;
 }
+.lineHeight35{
+    line-height:35px;
+}

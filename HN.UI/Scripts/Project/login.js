@@ -247,12 +247,6 @@ function checkVerifyCode() {
     //验证码格式是否正确
     return status;
 }
-function catchError(elem) {
-    $("#error_" + elem).show();
-}
-function catchSuccess(elem) {
-    $("#error_" + elem).hide();
-}
 function checkUserName() {
     var value = $("input[name=loginName]").val(), password = $("input[name=pwd]").val();
     if (phoneReg.test(value) || emailReg.test(value)) {

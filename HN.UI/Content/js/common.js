@@ -16,3 +16,10 @@ function loadContentPath(url) {
 function closeThisDialog(elem) {
     $(elem).parent('.dialog_head').parent('.dialogContent').parent('.dialog').remove();
 }
+
+function catchError(elem) {
+    $("#error_" + elem).show();
+}
+function catchSuccess(elem) {
+    $("#error_" + elem).hide();
+}
