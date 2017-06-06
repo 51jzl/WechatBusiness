@@ -14,9 +14,10 @@
         /// <summary>
         /// 构造器
         /// </summary>
-        public MessageJSON(MessageState state,string content, MessageIcon? icon=null) {
+        public MessageJSON(MessageState state,string content, MessageIcon? icon=null, object data=null) {
             this.State = state;
             this.Content = content;
+            this.Data = data;
             this.Icon = icon;
         }
 
@@ -30,6 +31,11 @@
         /// 内容
         /// </summary>
         public string Content { get; set; }
+
+        /// <summary>
+        /// 数据集合
+        /// </summary>
+        public object Data { get; set; }
 
         /// <summary>
         /// 图标

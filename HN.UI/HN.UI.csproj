@@ -2520,6 +2520,7 @@
     <Content Include="文档\动软三层模板\Model.cmt" />
     <Content Include="Views\Shared\_nLayout.cshtml" />
     <Content Include="Views\Project\projectDialog.cshtml" />
+    <Content Include="Views\Home\Default - 复制.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

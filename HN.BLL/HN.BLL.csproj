@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="bs_blls.cs" />
     <Compile Include="Button.cs" />
     <Compile Include="CharPY.cs" />
     <Compile Include="DictKey.cs" />
