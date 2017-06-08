@@ -23,7 +23,7 @@
                 <input type="text" class="form-control inlineBlock" name="searchContent" />
                 <input type="button" class="btn btn-default" value="搜索" />
             </div>
-            <button type="button" class="btn btn-default pull-right" onclick="openDialog('新增产品', '/Project/projectDialog')">新增项目</button>
+            <button type="button" class="btn btn-default pull-right" onclick="openDialog('新增产品', '/Project/projectDialog','')">新增项目</button>
         </div>
     </div>
     <table class="table m-t-xs bg-white" id="projectForm_table">
@@ -42,7 +42,7 @@
                 <td>波利鱼趣</td>
                 <td>薄利有限公司</td>
                 <td>是</td>
-                <td><i class="fa fa-pencil-square-o" aria-hidden="true" onclick="openDialog('编辑产品', '/Project/projectDialog?id=')"></i></td>
+                <td><i class="fa fa-pencil-square-o" aria-hidden="true" onclick="openDialog('编辑产品', '/Project/projectDialog?id=','')"></i></td>
             </tr>
         </tbody>
     </table>
@@ -50,17 +50,26 @@
 <script type="text/javascript">
     $(function () {
         $.ajax({
-            url: "alreadyProject",//已有的项目
+            url: "/Project/UserGet",//已有的项目
             data: "18408234171",//传过去登陆人的ID
-            type: "",
+            type: "POST",
             success: function (data) {
-                initFormData(data);
+                $("#projectForm_table tbody").empty();
+                $.each(data.Data, function (index,value) {
+                    initFormData(value);
+                })
+                
             }
         })
     })
     function initFormData(data) {
-        var tr = $("<tr><td>" + data.Id + "</td><td>" + data.name + "</td><td>" + data.Company + "</td><td>" + data.status + "</td><td>" +
-            "<i class='fa fa-pencil-square-o' aria-hidden='true' onclick='openDialog('编辑产品', '/Project/projectDialog?id=" + data.Id + "')'></i></td></tr>");
-        $("#projectForm_table").empty().append(tr);
+        var tr = $("<tr><td class='dataId'>" + data.ID + "</td><td>" + data.Name + "</td><td>" + data.Company + "</td><td>" + data.Enable + "</td><td>" +
+        "<i class='fa fa-pencil-square-o' aria-hidden='true'></i></td></tr>");
+        $("#projectForm_table tbody").append(tr);
+        
     }
+    $("#projectForm_table").delegate(".fa", "click", function () {
+        var dataId = $(this).parent("td").parent("tr").find(".dataId").text();
+        openDialog("编辑商品", '/Project/projectDialog', dataId);
+    })
 </script>

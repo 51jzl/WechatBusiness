@@ -1,15 +1,16 @@
 
 
-function openDialog(name, url) {
+function openDialog(name, url,id) {
     var $content = $("<div class='dialog'><div class='dialogContent bg-white'>" +
         "<div class='dialog_head p-xs bg-muted h4'>" + name + "<i class='fa fa-times pull-right m-r-xs m-t-xxs' aria-hidden='true' onclick='closeThisDialog(this)'></i></div>" +
         "<div class='dialog_body p-xs'></div>" +
         "</div></div>");
     $("#wrapper").append($content);
-    loadContentPath(url);
+    loadContentPath(url,id);
 }
-function loadContentPath(url) {
-    $(".dialog_body").load(url, function (response, status, xhr) {
+function loadContentPath(url, id) {
+    $.cookie("dataId",id);
+    $(".dialog_body").load(url+"?dataId="+id, function (response, status, xhr) {
         $(".dialog_body").html(response);
     });
 }
