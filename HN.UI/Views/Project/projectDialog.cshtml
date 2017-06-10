@@ -30,7 +30,9 @@
     </div>
     <div class="row m-t-sm">
         <div class="col-md-4 col-sm-4 text-right"><span class="lineHeight35"></span></div>
-        <div class="col-md-8 col-sm-8"><input type="checkbox" name="Enable"/>是否启用
+        <div class="col-md-8 col-sm-8">
+            <input type="radio" name="Enable" value="true"/>启用
+            <input type="radio" name="Enable" value="false" />不启用
             <span class="tips text-info m-l-md">若不启用，则在整个系统中不被引用，只在产品列表显示</span>
         </div>
     </div>
@@ -72,7 +74,7 @@
                 type: "post",
                 data: $(form).serialize(),
                 success: function (data) {
-                    
+                    location.reload();
                 }
             })
         }
