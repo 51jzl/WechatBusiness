@@ -26,31 +26,33 @@
                     <p class="text-center"><i class="fa fa-weixin text-wechat" aria-hidden="true"></i>打开<span class="text-wechat">微信</span>"扫一扫"登陆</p>
                 </div>
                 <div class="inputLogin padding-md">
-                    <form class="form-horizontal" id="loginForm" target="hiddenFrame">
-                        <div class="form-group no-margins">
-                            <div class="input-group m-t-md" id="Email">
-                                <div class="input-group-addon border-right-none bg-white"><i class="fa fa-phone-square" aria-hidden="true"></i></div>
-                                <input class="form-control inputForm border-left-none" name="loginName" placeholder="输入手机号或邮箱" type="text" value="13701991790">
+                    <fieldset>
+                        <form class="form-horizontal" id="loginForm" target="hiddenFrame">
+                            <div class="form-group no-margins">
+                                <div class="input-group m-t-md" id="Email">
+                                    <div class="input-group-addon border-right-none bg-white"><i class="fa fa-phone-square" aria-hidden="true"></i></div>
+                                    <input class="form-control inputForm border-left-none" name="userName" placeholder="输入手机号或邮箱" type="text" value="13701991790">
+                                </div>
+                                <p class="text-danger" id="error_userName">请输入合法的用户名！</p>
                             </div>
-                            <p class="text-danger" id="error_userName">请输入合法的用户名！</p>
-                        </div>
-                        <div class="form-group no-margins">
-                            <div class="input-group m-t-md" id="Password">
-                                <div class="input-group-addon border-right-none bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
-                                <input class="form-control inputForm border-left-none" name="pwd" placeholder="输入密码" type="password" value="123456">
+                            <div class="form-group no-margins">
+                                <div class="input-group m-t-md" id="Password">
+                                    <div class="input-group-addon border-right-none bg-white"><i class="fa fa-lock" aria-hidden="true"></i></div>
+                                    <input class="form-control inputForm border-left-none" name="password" placeholder="输入密码" type="password" value="123456">
+                                </div>
+                                <p class="text-danger" id="error_passWord">用户名和密码不匹配！</p>
                             </div>
-                            <p class="text-danger" id="error_passWord">用户名和密码不匹配！</p>
-                        </div>
-                        <div class="form-group no-margins">
-                            <div class="input-group m-t-md" id="rememberMe">
-                                <input name="rememberMe" type="checkbox" value="true">
-                                <input name="rememberMe" type="hidden" value="false"><label for="rememberMe">记住我</label>
+                            <div class="form-group no-margins">
+                                <div class="input-group m-t-md" id="rememberMe">
+                                    <input name="rememberMe" type="checkbox" value="true">
+                                    <label for="rememberMe">记住我</label>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-group no-margins">
-                            <button id="loginBtn" class="btn btn-desktop-default btn-block inputForm m-t-md bg-blue" return false> 登录</button>
-                        </div>
-                    </form>
+                            <div class="form-group no-margins">
+                                <button id="loginBtn" class="btn btn-desktop-default btn-block inputForm m-t-md bg-blue"> 登录</button>
+                            </div>
+                        </form>
+                    </fieldset>
                     <iframe name="hiddenFrame" id="hiddenFrame" style="display:none"></iframe>
                     <p class="requireAgencyInfo m-t-md">
                         <a href="~/Account/Register?name=managerReg" class="m-l-xs">管理注册</a>
@@ -69,10 +71,11 @@
         </div>
     </div>
 
-    <script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>
+    @*<script type="text/javascript" src="~/Scripts/jquery-1.8.2.min.js"></script>*@
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+
     <script type="text/javascript" src="~/Content/js/common.js"></script>
     <script type="text/javascript" src="~/Content/layer/layer.js"></script>
     <script type="text/javascript" src="~/Scripts/Project/login.js"></script>
-   
 </body>
 </html>

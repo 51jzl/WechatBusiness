@@ -1,0 +1,130 @@
+﻿
+<div class="row wrapper border-bottom white-bg page-heading no-margins">
+    <div class="">
+        <h2>代理管理</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a href="index.html">代理信息</a>
+            </li>
+            <li class="active">
+                <strong>代理统计</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+<div class="p-xs m-t-xs bg-white">
+    <div class="tabs-container">
+        <ul class="nav nav-tabs">
+            <li class="active"><a data-toggle="tab" href="#tab-1">新增代理统计</a></li>
+            <li class=""><a data-toggle="tab" href="#tab-2">总况统计</a></li>
+        </ul>
+        <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+                <div class="flexLayout p-xs m-t-xs border-top-bottom border-left-right b-r-md">
+                    <span class="lastMonth"><i class="fa fa-angle-double-left" aria-hidden="true"></i></span>
+                    <span class="timeNow">2017年7月</span>
+                    <span class="nextMonth"><i class="fa fa-angle-double-right" aria-hidden="true"></i></span>
+                </div>
+                <div class="row no-margins p-h-xs">
+                    <div class="col-sm-12 col-md-12 col-xs-12 border-bottom">
+                        <div id="highchart_grade"></div>
+                    </div>
+                    <div class="col-sm-12 col-md-12 col-xs-12 border-bottom">
+                        <div id="highchart_province"></div>
+                    </div>
+                </div>
+            </div>
+            <div id="tab-2" class="tab-pane">
+                <div class="panel-body">
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="detailsZone">
+        <div class="deliver_body p-xs goods-list flexLayout border-bottom">
+            <div class="flexLayout">
+                <img src="../css/images/cloud.png" width="60px" height="60px" class="b-r-md goods-pic" alt="商品图片">
+                <div class="goods-details inline-block m-l-sm">
+                    <p class="goods-name no-margins">迅手科技余建全</p>
+                    <p class="goods-price no-margins">32886372673551</p>
+                    <p class="time no-margins">申请时间：2017-3-9</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $('#highchart_grade').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '代理等级统计图'
+            },
+            tooltip: {
+                headerFormat: '{series.name}<br>',
+                pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                data: [
+                    ['高级私教', 51],
+                    ['创始人', 48],
+                    ['二级代理', 43],
+                    ['Opera', 62],
+                    ['其他', 7]
+                ]
+            }]
+        });
+        $('#highchart_province').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            title: {
+                text: '省份统计图'
+            },
+            tooltip: {
+                headerFormat: '{series.name}<br>',
+                pointFormat: '{point.name}: <b>{point.percentage:.1f}%</b>'
+            },
+            plotOptions: {
+                pie: {
+                    allowPointSelect: true,
+                    cursor: 'pointer',
+                    dataLabels: {
+                        enabled: true,
+                        format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                        style: {
+                            color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                        }
+                    }
+                }
+            },
+            series: [{
+                type: 'pie',
+                data: [
+                    ['其他省份', 151],
+                ]
+            }]
+        });
+    });
+</script>

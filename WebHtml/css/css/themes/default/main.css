@@ -1,0 +1,48 @@
+body {
+   background-color:#E6EEF8;
+}
+/*修改easyui默认样式*/
+.accordion-collapse {
+    background: url('/Content/EasyUI/themes/default/images/panel_tools.png') no-repeat -32px 0;
+}
+
+.accordion-expand {
+    background: url('/Content/EasyUI/themes/default/images/panel_tools.png') no-repeat -32px -16px;
+}
+
+.tree-node {
+    height: 20px;
+}
+
+.datagrid-toolbar {
+    padding: 0px;
+}
+
+/*header css*/
+.head-north {
+    overflow: hidden;
+    height: 64px;
+    background:url(/Content/images/headbg-default.png) repeat-x;
+    line-height: 64px;
+    color: #fff;
+    font-family: Verdana, 微软雅黑,黑体;
+    margin-bottom:5px;
+}
+
+/*页面查询条件css*/
+.tbar {
+    background-color: #FFFFFF;
+}
+
+/*自定义css*/
+.z-toolbar {
+    padding: 1px 3px 1px 3px;
+    border-bottom: 1px solid #8DB2E3;
+    margin-bottom: 2px;
+    background-color: #E0ECFF;
+    height: 26px;
+}
+
+    .z-toolbar a {
+        float: left;
+    }

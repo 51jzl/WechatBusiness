@@ -1,0 +1,81 @@
+﻿
+
+<div class="add-good m-t-sm">
+    <div class="row wrapper border-bottom white-bg page-heading no-margins">
+        <div class="">
+            <h2>进销存管理</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">商品管理</a>
+                </li>
+                <li class="active">
+                    <strong>新增商品</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <form id="addGoodsForm" class="border-top-bottom m-t-sm border-left-right b-r-md p-xs">
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>商品名称：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <input class="form-control" name="name" placeholder="填写商品名称"/>
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>商品图片：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <input type="file" name="pictrue"/>
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>商品规格：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <input class="form-control" name="standard"/>
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>商品原价：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <input class="form-control" name="price" type="number"/>
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>统一零售价：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <input class="form-control" name="unify-price" type="number" />
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>代理价格：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <div class="flexLayout">
+                    <label class="no-wrap">总代：</label>
+                    <input class="form-control" name="all-agent" type="number" />
+                </div>
+                <div class="flexLayout m-t-xs">
+                    <label class="no-wrap">省代：</label>
+                    <input class="form-control" name="provence-agent" type="number" />
+                </div>
+                <div class="flexLayout m-t-xs">
+                    <label class="no-wrap">市代：</label>
+                    <input class="form-control" name="city-agent" type="number" />
+                </div>
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>所属产品：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <select class="form-control" name="belong"></select>
+            </div>
+        </div>
+        <div class="row no-margin p-h-xs">
+            <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>商品描述：</span></div>
+            <div class="col-sm-9 col-md-9">
+                <textarea class="form-control" name="desciribe"></textarea>
+            </div>
+        </div>
+    </form>
+    <div class="row no-margins p-h-xs text-right">
+        <button class="btn btn-default">确定</button>
+    </div>
+</div>

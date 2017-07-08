@@ -258,20 +258,22 @@ function checkUserName() {
     }
 }
 function ajaxUserData() {
+    alert(1);
     $.ajax({
-        url: '/Home/Login',
-        type: 'post',
+        url: "http://139.196.49.210:106/api/account/login",
         data: $("#loginForm").serialize(),
+        method: "post",
         success: function (data) {
-            if (data) {
-                //判断登录成功
-                if (data.State && data.State == 1)
-                    window.location.href = '/Home/Default';
-                else
-                    layer.alert(data.Content, { icon: data.Icon });
+            if (data.State == 1) {
+                //为简单起见，将token保存在全局变量中。
+                window.token = data.Token;
+                alert("登录成功");
+            } else {
+                alert("登录失败:" + data.Message);
             }
         }
-    })
+    });
+    return false;
 }
 function storeName() {
     if ($('input[type="checkbox"]').is(':checked')) {

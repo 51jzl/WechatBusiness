@@ -1,0 +1,68 @@
+﻿
+
+<div class="new-agent m-t-sm">
+    <div class="row wrapper border-bottom white-bg page-heading no-margins">
+        <div class="">
+            <h2>代理管理</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">新增代理</a>
+                </li>
+                <li class="active">
+                    <strong>新增代理</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="border-top-bottom m-t-sm border-left-right b-r-md p-xs">
+        <form action="" id="newAgentForm" class="p-sm border-top-bottom border-left-right bg-white">
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>ID：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <input class="form-control " name="ID" placeholder="创建项目自动生成ID" readonly>
+                </div>
+            </div>
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>姓名<span class="text-danger">*</span>：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <input class="form-control " type="text" name="name" >
+                </div>
+            </div>
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>手机号码<span class="text-danger">*</span>：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <input class="form-control " name="phone" type="number" >
+                    <span><span class="text-danger">*</span>手机号为默认登录账号</span>
+                </div>
+            </div>
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>身份证号<span class="text-danger">*</span>：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <input class="form-control " type="number" name="IDcard">
+                </div>
+            </div>
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>代理等级<span class="text-danger">*</span>：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <select class="form-control " name="agentGrade"></select>
+                </div>
+            </div>
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>上级代理<span class="text-danger">*</span>：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <select class="form-control " name="lastAgent"></select>
+                </div>
+            </div>
+            <div class="row no-margin p-h-xs">
+                <div class="col-sm-3 col-md-3 text-right lineHeight35"><span>密码<span class="text-danger">*</span>：</span></div>
+                <div class="col-sm-9 col-md-9">
+                    <input class="form-control"  type="number" name="password">
+                </div>
+            </div>
+            <div class="row no-margins p-xs border-top text-right">
+                <button class="btn btn-default">保存</button>
+            </div>
+        </form>
+
+    </div>
+</div>

@@ -1,0 +1,73 @@
+﻿
+
+
+<div class="createView m-t-sm">
+    <div class="row wrapper border-bottom white-bg page-heading no-margins">
+        <div class="">
+            <h2>项目管理</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">Home</a>
+                </li>
+                <li class="active">
+                    <strong>项目管理</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <div class="p-xs m-t-xs bg-white">
+        <div class="row no-margins">
+            <div class="inlineBlock">
+                <input type="text" class="form-control inlineBlock" name="searchContent" />
+                <input type="button" class="btn btn-default" value="搜索" />
+            </div>
+            <button type="button" class="btn btn-default pull-right" onclick="openDialog('新增产品', '/account/project_dialog.html', '')">新增项目</button>
+        </div>
+    </div>
+    <table class="table m-t-xs bg-white" id="projectForm_table">
+        <thead>
+            <tr>
+                <th>项目ID</th>
+                <th>项目名称</th>
+                <th>所属公司</th>
+                <th>是否启用</th>
+                <th>功能</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>10039</td>
+                <td>波利鱼趣</td>
+                <td>薄利有限公司</td>
+                <td>是</td>
+                <td><i class="fa fa-pencil-square-o" aria-hidden="true" onclick="openDialog('编辑产品', '/account/project_dialog.html?id=', '')"></i></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<script type="text/javascript">
+    $(function () {
+        $.ajax({
+            url: "http://139.196.49.210:106/Api/Project/GetAll",//已有的项目
+            method: "get",
+            headers: { "token": $.cookie("token") },
+            success: function (data) {
+                $("#projectForm_table tbody").empty();
+                $.each(data.Data, function (index,value) {
+                    initFormData(value);
+                })
+
+            }
+        })
+    })
+    function initFormData(data) {
+        var tr = $("<tr><td class='dataId'>" + data.ID + "</td><td>" + data.Name + "</td><td>" + data.Company + "</td><td>" + data.Enable + "</td><td>" +
+        "<i class='fa fa-pencil-square-o' aria-hidden='true'></i></td></tr>");
+        $("#projectForm_table tbody").append(tr);
+
+    }
+    $("#projectForm_table").delegate(".fa", "click", function () {
+        var dataId = $(this).parent("td").parent("tr").find(".dataId").text();
+        openDialog("编辑商品", '/account/project_dialog.html', dataId);
+    })
+</script>

@@ -1,0 +1,47 @@
+﻿
+<div class="new_agentGrade m-t-sm">
+    <div class="row wrapper border-bottom white-bg page-heading no-margins">
+        <div class="">
+            <h2>系统管理</h2>
+            <ol class="breadcrumb">
+                <li>
+                    <a href="index.html">代理级别管理</a>
+                </li>
+                <li class="active">
+                    <strong>新增代理级别</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+    <form id="new_gradeForm" class="m-t-sm border-left-right border-top-bottom b-r-md p-h-xs">
+        <div class="row no-margins p-h-xs border-bottom">
+            <div class="col-sm-6 col-md-6">
+                <label>代理级别：</label>
+                <select class="form-control" name="grade"></select>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <label>上级级别：</label>
+                <select class="form-control" name="lastGrade"></select>
+            </div>
+        </div>
+        <div class="row no-margins p-h-xs border-bottom"">
+            <div class="col-sm-6 col-md-6">
+                <label>首次进货金额：</label>
+                <input type="number" name="firstAcount" class="form-control"/>
+            </div>
+            <div class="col-sm-6 col-md-6">
+                <label>补货金额：</label>
+                <input type="number" name="supplementAcount" class="form-control" />
+            </div>
+        </div>
+        <div class="row no-margins corresponding_project p-sm">
+            <label class="m-b-sm">对应项目</label><br />
+            <label><input name="corresponding_list" type="checkbox" value="" />默认</label>
+            <label><input name="corresponding_list" type="checkbox" value="" />根据已经创建的项目</label>
+            <label><input name="corresponding_list" type="checkbox" value="" />你好我是多选框</label>
+        </div>
+    </form>
+    <div class="row no-margins border-bottom p-sm text-right">
+        <button type="button" class="btn btn-default">确定</button>
+    </div>
+</div>
